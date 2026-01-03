@@ -36,3 +36,9 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+
+  # dentalkart testing enviroment
+  dental_kart:
+    base_url: "https://www.dentalkart.com/"
+    username: "suraj.rpee24@gmail.com"
+    password: "cherry"

@@ -103,3 +103,17 @@ class BasePage:
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
             raise
+
+    @allure.step("Scroll to element: {locator}")
+    def scroll_to_element(self, locator):
+        """
+        Scrolls to an element on the page to ensure it's in the viewport.
+        """
+        try:
+            element = self.driver.find_element(*locator)
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            self.logger.info(f"Scrolled to element: {locator}")
+        except Exception as e:
+            self.logger.error(f"Error scrolling to element {locator}: {e}")
+            raise
+
