@@ -31,7 +31,10 @@ class TestItokriProduct(BaseTest):
         first_name=product_name.split()[0]
         with allure.step("1. Open homepage"):
             homepage.navigate_to(base_url)
-            homepage.click_cross_button()
+            try:
+                homepage.click_cross_button()
+            except:
+                print("cross button not came")
             self.logger.info("Home page is displayed successfully.")
 
         with allure.step("2. Searching product with search bar"):

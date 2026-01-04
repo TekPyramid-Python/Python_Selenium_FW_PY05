@@ -31,8 +31,11 @@ class TestItokriProduct(BaseTest):
         password=env.get_password()
         with allure.step("1. Open homepage"):
             homepage.navigate_to(base_url)
-            homepage.click_cross_button()
-            self.logger.info("Login page is displayed successfully.")
+            try:
+                homepage.click_cross_button()
+            except:
+                print("cross button not came")
+            self.logger.info("Home page is displayed successfully.")
 
         with allure.step("2. Hover on Sarees and click on Banarasi Sarees"):
             homepage.product_select()

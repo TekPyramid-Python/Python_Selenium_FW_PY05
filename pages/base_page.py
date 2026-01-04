@@ -152,3 +152,20 @@ class BasePage:
         except TimeoutException:
             self.logger.error(f"Timeout: Element not hoverable for {locator}")
             raise
+
+    @allure.step("Typing single char '{char}' into element: {locator}")
+    def send_char(self, locator, char):
+        """
+        Types exactly one character into an element without clearing existing value.
+        Waits for the element to be visible first.
+        """
+        try:
+            if len(char) != 1:
+                raise ValueError(f"send_char expects a single character, got: {repr(char)}")
+
+            element = self.wait.until(EC.visibility_of_element_located(locator))
+            element.send_keys(char)
+            self.logger.info(f"Successfully typed char {repr(char)} into element: {locator}")
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element not visible for single-char entry: {locator}")
+            raise

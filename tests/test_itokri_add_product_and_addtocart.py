@@ -98,11 +98,3 @@ class TestItokriGetProductAndAddtocart(BaseTest):
             listpage.click_on_view_cart()
             self.logger.info("The control goes to the add to cart page successfully")
             sleep(10)
-
-
-
-
-
-
-
-

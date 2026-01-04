@@ -40,3 +40,5 @@ class ItokriHomePage(BasePage):
     def home_decor_select(self):
         self.hover(self.HOME_DECOR_MENU)
         self.click(self.KALAMKARI_CUSHION_COVERS)
+    def nav_to_new_menu(self):
+        self.click(self.NEW_MENU)

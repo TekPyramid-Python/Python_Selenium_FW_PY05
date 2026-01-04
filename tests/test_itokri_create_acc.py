@@ -32,10 +32,13 @@ class TestCreateAccount(BaseTest):
         phone="9876543212"
         with allure.step("1. Click on Account icon"):
             homepage.navigate_to(base_url)
-            homepage.click_cross_button()
+            try:
+                homepage.click_cross_button()
+            except:
+                print("cross button not came")
             homepage.login_icon()
             # assert loginpage.is_loginpage_visible(), "Did not land on login page."
-            self.logger.info("Login page is displayed successfully.")
+            self.logger.info("Home page is displayed successfully.")
         with allure.step("2. Click on login with email"):
             loginpage.nav_create_acc_page()
             # assert createacc.is_create_account_visible(), "Did not land on create account page."
