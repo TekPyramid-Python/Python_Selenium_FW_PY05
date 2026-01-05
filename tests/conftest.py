@@ -8,7 +8,7 @@ import os
 import time
 from pathlib import Path
 import pytest_html  # <-- The required import
-from config.environment import Environment
+from ..config.environment import Environment
 
 
 @pytest.fixture(scope="session", autouse=True)

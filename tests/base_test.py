@@ -9,11 +9,12 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 import allure
 import io
 import logging
-import time
+from time import sleep, time
 from pathlib import Path
 
-from utils.logger import get_logger
-from config.environment import Environment
+from ..pages.base_page import BasePage
+from ..utils.logger import get_logger
+from ..config.environment import Environment
 
 # --- NEW: Define Project Root as a Global Constant ---
 # This is a robust way to get your project's root directory.
@@ -24,6 +25,44 @@ PROJECT_ROOT = Path(__file__).parent.parent
 
 class BaseTest:
     logger = get_logger()
+    LOGIN_BUTTON = ("css selector", "button.rm-login__btn")
+    PHONE_FIELD = ("css selector", "div.rm-auth__user-input>div>input")
+    CONTINUE_BTN = ("css selector", "form.rm-auth__form>div:nth-child(2)>button")
+    PROFILE_ICON = ("css selector", "a.rm-user__fullName")
+    LOGOUT_BTN = ("css selector", "ul.nav-arrow.rm-user__loggedIn>li:nth-child(4)")
+
+    @pytest.fixture(scope="function")
+    def rentomojo_login(self):
+        base = BasePage(self.driver)
+        env = Environment()
+        # phone_no = env.get_phone_no()
+        base_url = env.get_base_url()
+        with allure.step("Navigating to url"):
+            print(base_url)
+            base.navigate_to(base_url)
+            base.wait_till_pageload()
+        with allure.step("Navigate and perform a successful login"):
+            try:
+                base.click(self.LOGIN_BUTTON)
+                base.send_keys(self.PHONE_FIELD, 8431926335)
+                base.click(self.CONTINUE_BTN)
+                base.wait_till_pageload()
+                sleep(15)
+                base.click(self.CONTINUE_BTN)
+
+            except Exception as e:
+                print("userr already logined")
+
+        yield
+
+        with allure.step("Navigate and perform a successful logout"):
+            try:
+                base.hover_over_element(self.PROFILE_ICON)
+                sleep(5)
+                base.click(self.LOGOUT_BTN)
+                sleep(15)
+            except Exception as e:
+                print("user not logged in")
 
     @pytest.fixture(scope="function", autouse=True)
     def setup_and_teardown(self, request):

@@ -4,10 +4,11 @@ This class is the foundation of the Page Object Model pattern.
 """
 
 import allure
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from utils.logger import get_logger  # Import our central logger utility
+from ..utils.logger import get_logger  # Import our central logger utility
 
 
 class BasePage:
@@ -102,4 +103,48 @@ class BasePage:
             self.logger.info(f"Successfully navigated to: {url}")
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
+            raise
+
+    @allure.step("Scroll to element: {locator}")
+    def scroll_to_element(self, locator):
+        """
+        Scrolls to an element on the page to ensure it's in the viewport.
+        """
+        try:
+            element = self.driver.find_element(*locator)
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            self.logger.info(f"Scrolled to element: {locator}")
+        except Exception as e:
+            self.logger.error(f"Error scrolling to element {locator}: {e}")
+            raise
+
+    # Methods for rentomojo website
+    def selecting_product(self, product):
+        self.scroll_to_element(product)
+        self.click(product)
+
+    def switch_to_window(self, index):
+        handles = self.driver.window_handles
+        self.driver.switch_to.window(handles[index])
+
+    def switch_to_iframe(self, iframe_handle):
+        self.driver.switch_to.iframe(iframe_handle)
+
+    def wait_till_pageload(self):
+        WebDriverWait(self.driver, 30).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+
+    @allure.step("Hover over element: {locator}")
+    def hover_over_element(self, locator):
+        """
+        hover to an element on the page to ensure it's in the viewport.
+        """
+        try:
+            element = self.driver.find_element(*locator)
+            act_obj = ActionChains(self.driver)
+            act_obj.move_to_element(element).perform()
+            self.logger.info(f"hovered to element: {locator}")
+        except Exception as e:
+            self.logger.error(f"Error hovering to element {locator}: {e}")
             raise

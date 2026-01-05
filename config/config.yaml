@@ -36,3 +36,9 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+
+  #Rentomojo Environment
+  rent:
+    base_url: "https://www.rentomojo.com/bangalore"
+    username: "N/A" # Not needed for this site
+    password: "N/A"
