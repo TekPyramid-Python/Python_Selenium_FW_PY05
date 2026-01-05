@@ -36,3 +36,6 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+
+  clinicwala:
+    base_url: "https://www.clinicwala.com"
