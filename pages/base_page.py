@@ -7,7 +7,9 @@ import allure
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from utils.logger import get_logger  # Import our central logger utility
+from selenium.webdriver.common.action_chains import ActionChains
+from utils.logger import get_logger
+from selenium.webdriver.support.ui import Select
 
 
 class BasePage:
@@ -21,9 +23,7 @@ class BasePage:
         Initialize BasePage with the WebDriver instance and our central logger.
         """
         self.driver = driver
-        # Explicit wait timeout can be configured here
         self.wait = WebDriverWait(driver, 20)
-        # Use our central logger, already configured in conftest.py
         self.logger = get_logger()
 
     @allure.step("Clicking Element: {locator}")
@@ -38,7 +38,6 @@ class BasePage:
             self.logger.info(f"Successfully clicked element: {locator}")
         except TimeoutException:
             self.logger.error(f"Timeout: Element not clickable: {locator}")
-            # Re-raise the exception to fail the test and trigger failure evidence capture
             raise
 
     @allure.step("Entering text '{text}' into Element: {locator}")
@@ -103,3 +102,75 @@ class BasePage:
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
             raise
+
+    @allure.step("Wait for element to be present: {locator}")
+    def wait_for_element(self, locator, timeout=20):
+        """
+        Wait for an element to be present in the DOM.
+        """
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.presence_of_element_located(locator)
+            )
+            self.logger.info(f"Element found: {locator}")
+            return element
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element was not present within {timeout}s: {locator}")
+            raise
+
+    @allure.step("Scroll to element: {locator}")
+    def scroll_to_element(self, locator):
+        """
+        Scrolls to an element on the page to ensure it's in the viewport.
+        """
+        try:
+            element = self.driver.find_element(*locator)
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            self.logger.info(f"Scrolled to element: {locator}")
+        except Exception as e:
+            self.logger.error(f"Error scrolling to element {locator}: {e}")
+            raise
+
+    @allure.step("nav_to_brand_hover: {brand_hover}")
+    def nav_to_brand_hover(self, brand_hover):
+        """
+        Hovers over an element on the page.
+        """
+        try:
+            element = self.driver.find_element(*brand_hover)
+            ActionChains(self.driver).move_to_element(element).perform()
+            self.logger.info(f"Hovered over element: {brand_hover}")
+        except Exception as e:
+            self.logger.error(f"Error hovering over element {brand_hover}: {e}")
+            raise
+
+    def click_save_button(self, save_button, timeout=10):
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.element_to_be_clickable(save_button)
+            )
+
+            # Scroll element into view
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block: 'center'});", element
+            )
+
+            # Small wait for animation
+            self.driver.implicitly_wait(1)
+
+            try:
+                element.click()
+            except Exception:
+                # Fallback to JS click
+                self.driver.execute_script("arguments[0].click();", element)
+
+            self.logger.info(f"Successfully clicked element: {save_button}")
+
+        except Exception as e:
+            self.logger.error(f"Failed to click element: {save_button} | Error: {e}")
+            raise
+
+    def select_by_visible_text(self, drop_down):
+        dropdown = Select(self.wait.until(EC.element_to_be_clickable(drop_down)))
+        dropdown.select_by_visible_text("500ml Pet Bottle")
+        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
