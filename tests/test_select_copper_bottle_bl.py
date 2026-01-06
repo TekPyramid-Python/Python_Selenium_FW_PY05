@@ -29,9 +29,10 @@ class TestSelectCopperBottle(BaseTest):
         with allure.step("clicking on sign in through google"):
             signin.signup()
             self.logger.info(f"clicked on signup button in home page")
-            assert signin.is_visible(signin.SIGNUP_ICON), "Not able to locate the google signupicon"
             signin.switch_to_window()
             self.logger.info("switched to new window")
+            assert signin.is_visible(signin.ALREADY_SIGNED_IN), "Not able to locate the google signupicon"
+
 
             # expected_title = "Sign in - Brown Living™"  # This is wrong on purpose
             # actual_title = signin.get_title()

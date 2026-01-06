@@ -19,6 +19,7 @@ class Signup_Page(BasePage):
    search=(By.XPATH,"(//a[@aria-controls='SearchDrawer'])[2]")
    searchinp=(By.XPATH,'(//div[@class="search__field field flex items-center gap-4 relative"])[1]/input')
    searchallproduct=(By.XPATH,"//a[.='Shop All Products']")
+   ALREADY_SIGNED_IN = (By.XPATH, "//div[@class='_15amvvq4 _15amvvq3 _1fragemn2 _1fragemq1 _1fragem2s']")
 
 
    def __init__(self, driver):
