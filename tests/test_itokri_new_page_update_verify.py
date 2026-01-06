@@ -21,6 +21,7 @@ class TestItokriProduct(BaseTest):
     @allure.title("Test successful login with valid credentials")
     @allure.severity(allure.severity_level.NORMAL)
     @pytest.mark.smoke
+    @pytest.mark.itokri
     def test_product_verify(self):
         homepage=ItokriHomePage(self.driver)
         newpage=ItokriListOfNewPage(self.driver)

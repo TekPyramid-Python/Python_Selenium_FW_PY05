@@ -18,8 +18,9 @@ class TestItokriProduct(BaseTest):
     """
 
     @allure.title("Test successful login with valid credentials")
-    @allure.severity(allure.severity_level.NORMAL)
+    @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.smoke
+    @pytest.mark.itokri
     @pytest.mark.parametrize("product_name",["Ikat Silk Saree","Chikankari saree"])
     def test_product_verify(self,product_name):
         homepage=ItokriHomePage(self.driver)

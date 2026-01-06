@@ -20,7 +20,8 @@ class TestItokriGetProductAndAddtocart(BaseTest):
     """
 
     @allure.title("Test successful login with valid credentials")
-    @allure.severity(allure.severity_level.NORMAL)
+    @allure.severity(allure.severity_level.CRITICAL)
+    @pytest.mark.itokri
     @pytest.mark.smoke
     def test_get_product_and_addtocart(self):
         homepage=ItokriHomePage(self.driver)
