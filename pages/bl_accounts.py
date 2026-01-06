@@ -7,7 +7,7 @@ from pages.base_page import BasePage
 import time
 
 class Accounts(BasePage):
-    SHOP=(By.CSS_SELECTOR,"a[class='qKN3X Pw7Nz IeWK2 zVVUm']")
+    SHOP=(By.XPATH,"//a[.='Shop']")
     # MAINSHOP=(By.CSS_SELECTOR,".menu__item.text-sm-lg.flex.items-center.font-medium.z-2.relative.cursor-pointer")
     MAINSHOP=(By.XPATH,"(//span[.='Shop'])[3]")
     COPPER_ITEM=(By.XPATH,"//a[.='Copper']")
@@ -18,6 +18,7 @@ class Accounts(BasePage):
 
 
     def select_shop(self):
+        time.sleep(5)
         shop_element = self.wait_for_element(self.SHOP)
         shop_element.click()
         # time.sleep(20)

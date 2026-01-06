@@ -1,6 +1,6 @@
 """
 Base Page class containing common, reusable methods for all page objects.
-This class is the foundation of the Page Object Model pattern.
+This class is the fo`undation of the Page Object Model pattern.
 """
 
 import allure
@@ -21,9 +21,7 @@ class BasePage:
         Initialize BasePage with the WebDriver instance and our central logger.
         """
         self.driver = driver
-        # Explicit wait timeout can be configured here
         self.wait = WebDriverWait(driver, 20)
-        # Use our central logger, already configured in conftest.py
         self.logger = get_logger()
 
     @allure.step("Clicking Element: {locator}")
@@ -38,7 +36,6 @@ class BasePage:
             self.logger.info(f"Successfully clicked element: {locator}")
         except TimeoutException:
             self.logger.error(f"Timeout: Element not clickable: {locator}")
-            # Re-raise the exception to fail the test and trigger failure evidence capture
             raise
 
     @allure.step("Entering text '{text}' into Element: {locator}")
@@ -58,7 +55,7 @@ class BasePage:
             raise
 
     @allure.step("Checking if Element is visible: {locator}")
-    def is_visible(self, locator, timeout=10):
+    def is_visible(self, locator, timeout=50):
         """
         Checks if an element is visible on the page within a given timeout.
         Returns True or False. Does not fail the test.
@@ -103,3 +100,46 @@ class BasePage:
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
             raise
+
+    @allure.step("Wait for element to be present: {locator}")
+    def wait_for_element(self, locator, timeout=20):
+        """
+        Wait for an element to be present in the DOM.
+        """
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.presence_of_element_located(locator)
+            )
+            self.logger.info(f"Element found: {locator}")
+            return element
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element was not present within {timeout}s: {locator}")
+            raise
+
+    @allure.step("Scroll to element: {locator}")
+    def scroll_to_element(self, locator):
+        """
+        Scrolls to an element on the page to ensure it's in the viewport.
+        """
+        try:
+            element = self.driver.find_element(*locator)
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            self.logger.info(f"Scrolled to element: {locator}")
+        except Exception as e:
+            self.logger.error(f"Error scrolling to element {locator}: {e}")
+            raise
+
+    # @allure.step("wait for the window : {locator}")
+    # def switch_to_window(self,locator):
+    #     try:
+    #         element=self.driver.find_element(*locator)
+    #         all_id=self.driver.window_handles
+    #         print(all_id)
+    #         for windowpop in all_id[1]:
+    #             self.driver.switch_to.window(windowpop)
+    #     except Exception as e:
+    #         self.logger.error(f"Error switching to child window to element {locator}: {e}")
+    #         raise
+
+
+

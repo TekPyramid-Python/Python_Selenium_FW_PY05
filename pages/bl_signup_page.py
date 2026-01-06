@@ -10,8 +10,9 @@ from pages.base_page import BasePage # Import the BasePage
 class Signup_Page(BasePage):
    SIGNUP_ICON=(By.CSS_SELECTOR,"div.header__icons.header__icons--end.flex.justify-end.z-2>div>:nth-child(2)>svg")
    G_SIGNUP=(By.CSS_SELECTOR,".social-login-button")
-   MAILID=(By.ID,"identifierId")
-   NEXT=(By.XPATH,"//span[.='Next']")
+   MAILID=(By.XPATH,"(//input[@class='whsOnd zHQkBf'])[1]")
+
+   NEXT=(By.XPATH,"(//button[@jsname='LgbsSe'])[2]")
    PASS=(By.XPATH,'//input[@type="password"]')
    ANOTHERACC=(By.XPATH,'//div[.="Use another account"]')
    CART=(By.CSS_SELECTOR,"div.header__icons.header__icons--end.flex.justify-end.z-2>div>:nth-child(3)")
@@ -32,21 +33,6 @@ class Signup_Page(BasePage):
        self.click(self.SIGNUP_ICON)
 
        sleep(6)
-       # Note: We don't need to return True/False. If any step fails, an exception will be raised.
-
-   # def is_login_successful(self):
-   #     """
-   #     Checks if login was successful by looking for an element on the inventory page.
-   #     Uses the is_visible method inherited from BasePage.
-   #     """
-   #     return self.is_visible(self.INVENTORY_PAGE_HEADER, timeout=5)
-   #
-   # def get_error_message(self):
-   #     """Gets the text of the login error message."""
-   #     if self.is_visible(self.ERROR_MESSAGE_CONTAINER, timeout=5):
-   #         # Uses the get_text method inherited from BasePage
-   #         return self.get_text(self.ERROR_MESSAGE_CONTAINER)
-   #     return "No error message found."
 
    def switch_to_window(self):
         try:
@@ -66,16 +52,17 @@ class Signup_Page(BasePage):
    def siginthroughgoogle(self):
        self.click(self.G_SIGNUP)
        sleep(4)
-       self.click(self.ANOTHERACC)
+       # self.click(self.ANOTHERACC)
 
 
    def entermail(self):
+       sleep(20)
        self.send_keys(self.MAILID,"varshitharc@gmail.com")
        sleep(6)
        self.click(self.NEXT)
        sleep(4)
        self.send_keys(self.PASS, "appuvaru@25")
-       sleep(4)
+       sleep(15)
        self.click(self.NEXT)
        sleep(5)
 

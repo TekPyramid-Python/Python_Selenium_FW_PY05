@@ -3,8 +3,8 @@
 browser:
   default: "chrome"
   headless: false
-  implicit_wait: 10
-  page_load_timeout: 30
+  implicit_wait: 20
+  page_load_timeout: 60
 
 logging:
   level: "INFO"
@@ -36,3 +36,7 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+  newapp:
+    base_url: "https://brownliving.in/"
+    username: "N/A" # not required for this website
+    password: "N/A"

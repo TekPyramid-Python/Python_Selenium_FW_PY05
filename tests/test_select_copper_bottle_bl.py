@@ -21,35 +21,77 @@ class TestSelectCopperBottle(BaseTest):
         env = Environment()
         base_url = env.get_base_url()
 
-        with allure.step("Navigate and sign in in child window"):
+        with allure.step("Navigate to base url"):
             signin.navigate_to(base_url)
             # time.sleep(3)
-        with allure.step("clicking on sign in"):
+            self.logger.info(f"navigating to base url")
+
+        with allure.step("clicking on sign in through google"):
             signin.signup()
+            self.logger.info(f"clicked on signup button in home page")
+            assert signin.is_visible(signin.SIGNUP_ICON), "Not able to locate the google signupicon"
             signin.switch_to_window()
+            self.logger.info("switched to new window")
+
+            # expected_title = "Sign in - Brown Living™"  # This is wrong on purpose
+            # actual_title = signin.get_title()
+            # assert expected_title == actual_title, "This assertion is designed to fail to test screenshot capture."
             # signin.siginthroughgoogle()
+            # assert signin.is_visible(signin.G_SIGNUP), "Not able to locate the google signup button"
+            # self.logger.info("switched to new window")
+            #
+            # expected_title = "Sign in to continue to brownliving.in"  # This is wrong on purpose
+            # actual_title = signin.get_title()
+            # assert expected_title == actual_title, "This assertion is to check google signin button."
             # signin.entermail()
             # time.sleep(30)
         acct=Accounts(self.driver)
         with allure.step("clicking on the product"):
+
              acct.select_shop()
+             # assert acct.is_visible(acct.SHOP), "Not able to locate the shop button"
              acct.select_copper()
              # acct.select_shop_and_copper()
         cpp=MadeWithCopperPage(self.driver)
-        cpp.instockbutton()
-        cpp.filterproducttye()
-        cpp.bottlensippers()
-        bttlnsip=BottleAndSippers(self.driver)
-        bttlnsip.select_product()
-        bttlnsip.buyit()
+        self.logger.info("selecting the product")
 
+        # expected_title = "Made with Copper on Brown Living™" # This is wrong on purpose
+        # actual_title = signin.get_title()
+        # assert expected_title in actual_title, "This assertion is designed to fail to test screenshot capture for product page."
+        cpp.instockbutton()
+        assert cpp.is_visible(cpp.INSTOCK), "Not able to locate the instock filter"
+
+        cpp.filterproducttye()
+        assert cpp.is_visible(cpp.PRODUCTTYPE), "Not able to locate the product type filter"
+
+        cpp.bottlensippers()
+        assert cpp.is_visible(cpp.BOTTLENSIPPERS), "Not able to locate the bottlesippers filter"
+
+        bttlnsip=BottleAndSippers(self.driver)
+
+        # expected_title =" Made with Copper on Brown Living� "  # This is wrong on purpose
+        # actual_title = bttlnsip.get_title()
+        # assert expected_title in actual_title, "This assertion is to check product page copper."
+
+        self.logger.info("selecting the copper product")
+        time.sleep(8)
+        bttlnsip.select_product()
+        # assert bttlnsip.is_visible(bttlnsip.BUYIT), "Not able to locate the copperbottle filter"
+        time.sleep(8)
+
+        assert bttlnsip.is_visible(bttlnsip.BUYIT), "Not able to locate the buyit"
+        bttlnsip.buyit()
 
         # signout=SignOut(self.driver)
         # with allure.step("signing out"):
+        #     self.logger.info("in the signout")
         #
+        #     expected_title = "Orders - Brown Living™ - Account"  # This is wrong on purpose
+        #     actual_title = signin.get_title()
+        #     assert expected_title == actual_title, "This assertion is designed to fail to test screenshot capture."
         #     signout.signout()
         #
-        # time.sleep(9)
+        #     time.sleep(9)
 
 
 
