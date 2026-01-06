@@ -2,6 +2,7 @@
 Base Test class containing common setup and teardown methods.
 This class implements the foundation for all test classes.
 """
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
