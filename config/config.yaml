@@ -36,3 +36,8 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+
+  himadri:
+    base_url: "https://himadrigardens.com/"
+    email: "arshalokanathan@gmail.com"
+    password: "JaQ56y5KbLxwY@t"

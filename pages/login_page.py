@@ -1,4 +1,6 @@
 # pages/login_page.py
+from asyncio import timeout
+
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage # Import the BasePage
 
@@ -24,7 +26,7 @@ class LoginPage(BasePage): # Make LoginPage inherit from BasePage
         self.logger.info(f"Attempting to log in with username: {username}")
         self.send_keys(self.USERNAME_INPUT, username)
         self.send_keys(self.PASSWORD_INPUT, password)
-        self.click(self.LOGIN_BUTTON)
+        self.click(self.LOGIN_BUTTON,timeout = 10)
         # Note: We don't need to return True/False. If any step fails, an exception will be raised.
 
     def is_login_successful(self):
