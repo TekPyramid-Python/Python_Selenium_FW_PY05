@@ -1,3 +1,4 @@
+from .furniture_page import Furniture_Module
 from ..pages.base_page import BasePage
 from time import sleep
 from ..config.environment import Environment
@@ -23,66 +24,53 @@ class RentomojoHomepage(BasePage):
 
 
     def addingproduct_tocart(self):
-        env = Environment()
-        base_url = env.get_base_url()
-        self.clearing_cart()
-        with allure.step("Navigating to url"):
-            print(base_url)
-            self.navigate_to(base_url)
         expected_product_name=self.get_text(self.PROD_LOCATION_TEXT)
-        with allure.step("adding product from homepage to cart"):
-            print(expected_product_name)
-            self.selecting_product(self.PROD_LOCATION)
-            self.switch_to_window(1)
-            sleep(5)
-            self.click(self.CART_BTN)
-            try:
-                self.send_keys(self.DELIVERY_PINCODE_BOX, "515005")
-                self.click(self.DELIVERY_PINCODE_BTN)
-            except Exception as e:
-                print("Delivery pincode not needed")
-            try:
-                self.click(self.AC_DIALOG_PROCEED_BTN)
-                sleep(2)
-                self.click(self.AC_INSTALLATION_BTN)
-                sleep(2)
-                self.click(self.INSTALLATION_EXTRAINFO_PROCEED_BTN)
-                sleep(2)
-            except Exception as e:
-                print("Dialog box is only for AC Products")
-            self.click(self.VIEW_CART_BTN)
-            sleep(15)
+        self.selecting_product(self.PROD_LOCATION)
+        self.switch_to_window(1)
+        sleep(5)
+        self.click(self.CART_BTN)
+        try:
+            self.send_keys(self.DELIVERY_PINCODE_BOX, "515005")
+            self.click(self.DELIVERY_PINCODE_BTN)
+        except Exception as e:
+            self.logger.info("Delivery pincode not needed")
+        try:
+            self.click(self.AC_DIALOG_PROCEED_BTN)
+            sleep(2)
+            self.click(self.AC_INSTALLATION_BTN)
+            sleep(2)
+            self.click(self.INSTALLATION_EXTRAINFO_PROCEED_BTN)
+            sleep(2)
+        except Exception as e:
+            self.logger.info("Dialog box is only for AC Products")
+        self.click(self.VIEW_CART_BTN)
+        sleep(15)
         actual_product_name=self.searching_for_product_cart(expected_product_name)
         assert expected_product_name== actual_product_name, 'product not added to cart'
-        print(f'{expected_product_name} is present in cart')
-        self.clearing_cart()
+        self.logger.info(f'{expected_product_name} is present in cart')
+
 
     def clearing_cart(self):
-        env = Environment()
-        base_url = env.get_base_url()
-        self.navigate_to(base_url)
-        with allure.step("clearing cart"):
-            print("clearing cart")
-            self.click(self.GO_TO_CART_BTN)
-            for i in self.driver.find_elements(*self.CART_PRODUCT_DELETE_BTN):
-                self.click(i)
-                self.click(self.CONFIRM_DELETE_PRODUCT)
+        furniture = Furniture_Module(self.driver)
+        furniture.navigate_to_website()
+        self.click(self.GO_TO_CART_BTN)
+        for i in self.driver.find_elements(*self.CART_PRODUCT_DELETE_BTN):
+            self.click(i)
+            self.click(self.CONFIRM_DELETE_PRODUCT)
 
 
     def searching_for_product_cart(self,product_name):
-        env = Environment()
-        base_url = env.get_base_url()
-        self.navigate_to(base_url)
-        with allure.step("searching for particular product present in cart"):
-            print('searching for product to compare')
-            self.click(self.GO_TO_CART_BTN)
-            for i in self.driver.find_elements(*self.CART_PRODUCT_NAMES):
-                result=i.text
-                print(f' expexted product name: {product_name} and actual product name:{result}')
-                if product_name in result:
-                    return product_name
-            else:
-                return None
+        furniture = Furniture_Module(self.driver)
+        furniture.navigate_to_website()
+        self.logger.info('searching for product to compare')
+        self.click(self.GO_TO_CART_BTN)
+        for i in self.driver.find_elements(*self.CART_PRODUCT_NAMES):
+            result=i.text
+            self.logger.info(f' expexted product name: {product_name} and actual product name:{result}')
+            if product_name in result:
+                return product_name
+        else:
+            return None
 
 
 

@@ -1,11 +1,25 @@
+import allure
+
+from ..pages.rentomojo_login_otp import rentomojo_login
 from ..tests.base_test import BaseTest
 from ..pages.furniture_page import Furniture_Module
 import pytest
 
+
 class TestFurnitureProductFlow(BaseTest):
     @pytest.mark.rentomojo
 
-    def test_add_furniture_product(self):
-        furniture=Furniture_Module(self.driver)
-        furniture.adding_furniture_product()
+    def test_add_furniture_product(self,rentomojo_login):
+        with allure.step("Navigating to website"):
+            furniture=Furniture_Module(self.driver)
+            furniture.navigate_to_website()
+        with allure.step("clearing cart"):
+            self.logger.info("clearing cart")
+            furniture.clearing_cart()
+        furniture.navigate_to_website()
+        with allure.step("adding to cart"):
+            furniture.adding_furniture_product()
+        with allure.step("clearing cart"):
+            self.logger.info("clearing cart")
+            furniture.clearing_cart()
 

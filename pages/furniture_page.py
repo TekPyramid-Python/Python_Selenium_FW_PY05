@@ -23,16 +23,14 @@ class Furniture_Module(BasePage):
     DELIVERY_PINCODE_BOX = ("css selector", "input.rm-pincode__input")
     DELIVERY_PINCODE_BTN = ("css selector", "button.rm-pincode__apply-btn")
 
-    def adding_furniture_product(self):
+
+    def navigate_to_website(self):
         env = Environment()
         base_url = env.get_base_url()
-        with allure.step("Workling with Furniture module"):
-            self.navigate_to(base_url)
-            self.wait_till_pageload()
-            sleep(5)
-
-        self.clearing_cart()
         self.navigate_to(base_url)
+        self.wait_till_pageload()
+        sleep(3)
+    def adding_furniture_product(self):
         self.click(self.FURNITURE_MODULE_BTN)
         self.wait_till_pageload()
         self.click(self.ROOM_TYPE_BEDROOM_BTN)
@@ -40,7 +38,7 @@ class Furniture_Module(BasePage):
         self.scroll_to_element(self.BEDROOM_PRODUCT)
         self.click(self.BEDROOM_PRODUCT)
         product_name=self.get_text(self.PRODUCT_NAME)
-        print(product_name)
+        self.logger.info(product_name)
         self.wait_till_pageload()
         self.switch_to_window(1)
         self.click(self.CART_BTN)
@@ -49,39 +47,32 @@ class Furniture_Module(BasePage):
             self.send_keys(self.DELIVERY_PINCODE_BOX,"515005")
             self.click(self.DELIVERY_PINCODE_BTN)
         except Exception as e:
-            print("Delivery pincode not needed")
+            self.logger.info("Delivery pincode not needed")
         sleep(5)
+        self.navigate_to_website()
         actual_product_name=self.searching_for_product_cart(product_name)
         assert product_name==actual_product_name,'product not added to cart'
-        print(f'{product_name} is present in cart')
-        self.clearing_cart()
+        self.logger.info(f'{product_name} is present in cart')
+
 
     def clearing_cart(self):
-        env = Environment()
-        base_url = env.get_base_url()
-        self.navigate_to(base_url)
-        with allure.step("clearing cart"):
-            print("clearing cart")
-            sleep(5)
-            self.click(self.GO_TO_CART_BTN)
-            for i in self.driver.find_elements(*self.CART_PRODUCT_DELETE_BTN):
-                self.click(i)
-                self.click(self.CONFIRM_DELETE_PRODUCT)
+        self.navigate_to_website()
+        sleep(5)
+        self.click(self.GO_TO_CART_BTN)
+        for i in self.driver.find_elements(*self.CART_PRODUCT_DELETE_BTN):
+            self.click(i)
+            self.click(self.CONFIRM_DELETE_PRODUCT)
 
 
     def searching_for_product_cart(self,product_name):
-        env = Environment()
-        base_url = env.get_base_url()
-        self.navigate_to(base_url)
-        with allure.step("searching for particular product present in cart"):
-            print('searching for product to compare')
-            self.click(self.GO_TO_CART_BTN)
-            for i in self.driver.find_elements(*self.CART_PRODUCT_NAMES):
-                result=i.text
-                print(f' expexted product name: {product_name} and actual product name:{result}')
-                if product_name in result:
-                    return product_name
-            else:
-                return None
+        self.logger.info('searching for product to compare')
+        self.click(self.GO_TO_CART_BTN)
+        for i in self.driver.find_elements(*self.CART_PRODUCT_NAMES):
+            result=i.text
+            self.logger.info(f'expexted product name: {product_name} and actual product name:{result}')
+            if product_name in result:
+                return product_name
+        else:
+            return None
 
 
