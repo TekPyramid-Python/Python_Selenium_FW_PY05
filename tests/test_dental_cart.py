@@ -5,6 +5,7 @@ from pages.dental_home_page import HomePage
 from pages.dental_kart_search_page import Search
 from pages.dental_kart_product_page import Product
 from pages.dental_cart import Cart
+from tests.test_login_and_logout import log_in_and_out
 from time import sleep
 
 @allure.feature("Authentication")

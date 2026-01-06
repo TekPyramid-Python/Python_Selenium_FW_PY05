@@ -6,7 +6,7 @@ class Cart(BasePage):
     remove_icon=(By.XPATH,'//div[contains(@class,"absolute -top-0.5 -left-0.5 cursor-pointer bg-gray-800 rounded-full")]')
     add_wishlist=(By.XPATH,"//span[@class='text-xs font-medium mr-1.5']")
     popup_remove=(By.XPATH,"//button[normalize-space()='Remove']")
-    wishlist_button=(By.XPATH,"//div[@class='hidden lg:block']//div[@class='sc-81107bf9-3 gRhygG']//div[2]//*[name()='svg']")
+    wishlist_button=(By.XPATH,'(//div[@class="sc-81107bf9-5 hyqkWj"])[2]')
     confirmation_message=(By.XPATH,"//p[@class='text-sm font-medium']")
     def click_home_page(self):
         self.click(self.home_button)
@@ -19,6 +19,7 @@ class Cart(BasePage):
         self.is_visible(self.confirmation_message)
 
     def clicking_wishlist(self):
+        self.is_visible(self.wishlist_button)
         self.click(self.wishlist_button)
         sleep(3)
 

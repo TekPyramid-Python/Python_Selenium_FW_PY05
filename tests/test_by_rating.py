@@ -1,6 +1,6 @@
 import pytest
 import allure
-
+from tests.test_login_and_logout import log_in_and_out
 from pages.dental_wishlist_page import WishListPage
 from pages.dental_kart_profile import ProfilePage
 from pages.dental_home_page import HomePage
