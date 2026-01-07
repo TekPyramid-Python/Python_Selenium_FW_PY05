@@ -2,11 +2,11 @@ from time import sleep
 
 import allure
 
-from config.environment import Environment
-from pages.bl_accounts import Accounts
-from pages.bl_reviewpage import Review
-from pages.bl_signup_page import Signup_Page
-from tests.base_test import BaseTest
+from ..config.environment import Environment
+from ..pages.bl_accounts import Accounts
+from ..pages.bl_reviewpage import Review
+from ..pages.bl_signup_page import Signup_Page
+from ..tests.base_test import BaseTest
 
 
 class TestWriteReview(BaseTest):

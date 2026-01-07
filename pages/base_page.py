@@ -7,7 +7,7 @@ import allure
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from utils.logger import get_logger  # Import our central logger utility
+from ..utils.logger import get_logger  # Import our central logger utility
 
 
 class BasePage:

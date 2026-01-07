@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC, wait
 
-from pages.base_page import BasePage # Import the BasePage
+from ..pages.base_page import BasePage # Import the BasePage
 
 class Signup_Page(BasePage):
    SIGNUP_ICON=(By.CSS_SELECTOR,"div.header__icons.header__icons--end.flex.justify-end.z-2>div>:nth-child(2)>svg")
@@ -27,12 +27,7 @@ class Signup_Page(BasePage):
        super().__init__(driver)
 
    def signup(self):
-       """
-       Performs a full login action using methods inherited from BasePage.
-       """
-       self.logger.info(f"Attempting to log in")
        self.click(self.SIGNUP_ICON)
-
        sleep(6)
 
    def switch_to_window(self):

@@ -6,7 +6,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC, wait
 
-from pages.base_page import BasePage # Import the BasePage
+from ..pages.base_page import BasePage # Import the BasePage
 
 class All_Products(BasePage):
    ITEM=(By.XPATH,"(//button[@aria-label='Add to cart'])[1]")

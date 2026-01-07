@@ -1,13 +1,13 @@
 
 from selenium.webdriver.common.by import By
-from pages.base_page import BasePage
+from ..pages.base_page import BasePage
 
 from selenium.webdriver.support.ui import Select
 from datetime import datetime
 import time
 
 class MadeWithCopperPage(BasePage):
-    INSTOCK = (By.XPATH, "(//input[@name='filter.v.availability'])[2]")
+    INSTOCK = (By.XPATH, "//input[@id='sidebar-filter.v.availability']")
     PRODUCTTYPE=(By.XPATH,"(//span[.='Product type'])[2]")
     BOTTLENSIPPERS = (By.ID, "sidebar-filter.p.product_type-1")
     # COPPERBOTTLE=(By.ID,"(//div[@class='flickity-slider'])[2]")
