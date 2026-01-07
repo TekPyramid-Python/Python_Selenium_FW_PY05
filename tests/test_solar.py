@@ -21,7 +21,6 @@ class TestLeadManagement(BaseTest):
 
     def test_end_to_end_lead_management_happy_path(self):
 
-
         login_page = LoginPage(self.driver)
         lead_creation_page = LeadCreationPage(self.driver)
         lead_summary = SiteInfo(self.driver)
