@@ -3,8 +3,8 @@
 browser:
   default: "chrome"
   headless: false
-  implicit_wait: 10
-  page_load_timeout: 30
+  implicit_wait: 20
+  page_load_timeout: 60
 
 logging:
   level: "INFO"
@@ -32,7 +32,7 @@ environments:
     password: "staging_pass"
   
   # Your actual production environment
-  prod:
-    base_url: "https://example.com"
-    username: "prod_user"
-    password: "prod_pass"
+  test:
+    base_url: "https://www.swasthyawarriors.com"
+    username: "test_user"
+    password: "test_pass"

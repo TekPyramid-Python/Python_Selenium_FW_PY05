@@ -22,8 +22,8 @@ class LoginPage(BasePage): # Make LoginPage inherit from BasePage
         Performs a full login action using methods inherited from BasePage.
         """
         self.logger.info(f"Attempting to log in with username: {username}")
-        self.send_keys(self.USERNAME_INPUT, username)
-        self.send_keys(self.PASSWORD_INPUT, password)
+        self.send_keys(self.EMAIL_INPUT, email)
+        self.send_keys(self.FIRST_NAME, first)
         self.click(self.LOGIN_BUTTON)
         # Note: We don't need to return True/False. If any step fails, an exception will be raised.
 
