@@ -36,3 +36,8 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+    
+  digitgo:
+    base_url: "https://www.godigit.com/"
+    username: ""
+    password: ""
