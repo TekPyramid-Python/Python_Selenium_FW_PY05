@@ -3,7 +3,7 @@
 browser:
   default: "chrome"
   headless: false
-  implicit_wait: 20
+  implicit_wait: 10
   page_load_timeout: 30
 
 logging:
@@ -36,6 +36,11 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+
+  digitgo:
+    base_url: "https://www.godigit.com/"
+    username: ""
+    password: ""
 
   #my website url
   test:
