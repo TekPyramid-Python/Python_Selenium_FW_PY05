@@ -23,7 +23,7 @@ class TestLogin(BaseTest):
     def test_login_account(self):
         homepage=ItokriHomePage(self.driver)
         loginpage = ItokriLoginPage(self.driver)
-        env = Environment()
+        env = Environment("itokri")
         base_url = env.get_base_url()
         email=env.get_username()
         password=env.get_password()

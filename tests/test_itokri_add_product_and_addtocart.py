@@ -27,7 +27,7 @@ class TestItokriGetProductAndAddtocart(BaseTest):
         homepage=ItokriHomePage(self.driver)
         listpage=ItokriListOfProductPage(self.driver)
         productpage=ItokriProductPage(self.driver)
-        env = Environment()
+        env = Environment("itokri")
         base_url = env.get_base_url()
         email=env.get_username()
         password=env.get_password()

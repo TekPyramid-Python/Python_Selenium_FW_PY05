@@ -135,7 +135,7 @@ class BasePage:
             self.logger.error(f"Error scrolling to element {locator}: {e}")
             raise
     @allure.step("Hovering Element: {locator}")
-    def hover(self, locator):
+    def hover_to_element(self, locator):
         """
         Hovers mouse over an element after waiting for it to be visible and clickable.
         Fails the test immediately if the element is not found within the timeout.

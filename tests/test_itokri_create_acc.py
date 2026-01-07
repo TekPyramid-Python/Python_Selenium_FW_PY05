@@ -23,7 +23,7 @@ class TestCreateAccount(BaseTest):
         homepage=ItokriHomePage(self.driver)
         loginpage = ItokriLoginPage(self.driver)
         createacc=ItokriCreateAccountPage(self.driver)
-        env = Environment()
+        env = Environment("itokri")
         base_url = env.get_base_url()
         firstname="Admin"
         lastname="Mark"

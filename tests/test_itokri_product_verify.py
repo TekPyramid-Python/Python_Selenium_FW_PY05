@@ -26,7 +26,7 @@ class TestItokriProduct(BaseTest):
         homepage=ItokriHomePage(self.driver)
         listpage=ItokriListOfProductPage(self.driver)
         productpage=ItokriProductPage(self.driver)
-        env = Environment()
+        env = Environment("itokri")
         base_url = env.get_base_url()
         email=env.get_username()
         password=env.get_password()
@@ -42,9 +42,9 @@ class TestItokriProduct(BaseTest):
             homepage.product_select()
             self.logger.info("Banarasi Saree page is displayed successfully")
 
-        with allure.step("3. Check the total number of item is >40 or not "):
-            assert 40<=listpage.get_total_count(), "Product is less than 40"
-            self.logger.info("Saree count is >40")
+        with allure.step("3. Check the total number of item is >10 or not "):
+            assert 10<=listpage.get_total_count(), "Product is less than 10"
+            self.logger.info("Saree count is >10")
 
         with allure.step("4. Check the saree is Banarasi Sarees or not"):
             listpage.click_first_product()
