@@ -37,6 +37,11 @@ environments:
     username: "prod_user"
     password: "prod_pass"
 
+  digitgo:
+    base_url: "https://www.godigit.com/"
+    username: ""
+    password: ""
+
   modi:
     base_url: "https://modiretail.com/"
     username: "ashagudisagar30@gmail.com"
