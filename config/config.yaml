@@ -3,8 +3,8 @@
 browser:
   default: "chrome"
   headless: false
-  implicit_wait: 10
-  page_load_timeout: 30
+  implicit_wait: 20
+  page_load_timeout: 60
 
 logging:
   level: "INFO"
@@ -42,3 +42,46 @@ environments:
     base_url: "https://www.rentomojo.com/bangalore"
     username: "N/A" # Not needed for this site
     password: "N/A"
+
+
+  digitgo:
+    base_url: "https://www.godigit.com/"
+    username: ""
+    password: ""
+
+  #my website url
+  test:
+    base_url: "https://vanalaya.com/"
+    username: "abcd@gmail.com"
+#    password: "87654321"
+  newapp:
+     base_url: "https://brownliving.in/"
+     username: "N/A" # not required for this website
+     password: "N/A"
+
+
+
+  #iTokri environment
+  itokri:
+    base_url: "https://itokri.com"
+    username: "arijit.singh@gmail.com"
+    password: "Arijit@1234"
+
+  # dentalkart testing enviroment
+  dental_kart:
+    base_url: "https://www.dentalkart.com/"
+    username: "suraj.rpee24@gmail.com"
+    password: "cherry"
+
+  clinicwala:
+    base_url: "https://www.clinicwala.com"
+
+  himadri:
+    base_url: "https://himadrigardens.com/"
+    email: "arshalokanathan@gmail.com"
+    password: "JaQ56y5KbLxwY@t"
+
+  home:
+    base_url: "https://www.ellementry.com/"
+    username: "prod_user"
+    password: "prod_pass"
