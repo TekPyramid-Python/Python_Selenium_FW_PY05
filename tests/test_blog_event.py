@@ -4,8 +4,6 @@ from pages.home_page import HomePage
 from pages.blog_page import BlogPage
 from pages.events_page import EventsPage
 from tests.base_test import BaseTest
-
-
 @allure.feature("Blog and Events Navigation")
 @allure.story("Navigate from Home → Blog → Events section")
 class TestBlogAndEventsNavigation(BaseTest):
