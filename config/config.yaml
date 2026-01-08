@@ -37,6 +37,7 @@ environments:
     username: "prod_user"
     password: "prod_pass"
 
+
   digitgo:
     base_url: "https://www.godigit.com/"
     username: ""
@@ -49,3 +50,9 @@ environments:
 #    password: "87654321"
 
 
+
+  #iTokri environment
+  itokri:
+    base_url: "https://itokri.com"
+    username: "arijit.singh@gmail.com"
+    password: "Arijit@1234"
