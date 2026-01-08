@@ -1,5 +1,9 @@
 # tests/conftest.py
+from pages.dental_home_page import HomePage
+from pages.dental_login_page import LoginPage
+from pages.dental_kart_profile import ProfilePage
 
+import allure
 import pytest
 import logging
 import colorlog
@@ -85,3 +89,4 @@ def pytest_runtest_makereport(item, call):
             report.extra.append(pytest_html.extras.image(screenshot, 'Screenshot on Failure'))
 
     setattr(item, "rep_" + report.when, report)
+

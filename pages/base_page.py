@@ -1,19 +1,18 @@
 """
 Base Page class containing common, reusable methods for all page objects.
-This class is the fo`undation of the Page Object Model pattern.
+This class is the foundation of the Page Object Model pattern.
 """
 
 import allure
 import time
+
+import allure
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-<<<<<<< HEAD
-from ..utils.logger import get_logger  # Import our central logger utility
-=======
 from selenium.webdriver.support.ui import Select
 from utils.logger import get_logger  # Import our central logger utility
->>>>>>> dc197b54926a58cf1eef86fa71bd0754eb63893d
 
 
 class BasePage:
@@ -27,7 +26,9 @@ class BasePage:
         Initialize BasePage with the WebDriver instance and our central logger.
         """
         self.driver = driver
+        # Explicit wait timeout can be configured here
         self.wait = WebDriverWait(driver, 20)
+        # Use our central logger, already configured in conftest.py
         self.logger = get_logger()
 
     @allure.step("Clicking Element: {locator}")
@@ -42,6 +43,7 @@ class BasePage:
             self.logger.info(f"Successfully clicked element: {locator}")
         except TimeoutException:
             self.logger.error(f"Timeout: Element not clickable: {locator}")
+            # Re-raise the exception to fail the test and trigger failure evidence capture
             raise
 
     @allure.step("Entering text '{text}' into Element: {locator}")
@@ -69,7 +71,7 @@ class BasePage:
         """, element, value)
 
     @allure.step("Checking if Element is visible: {locator}")
-    def is_visible(self, locator, timeout=50):
+    def is_visible(self, locator, timeout=10):
         """
         Checks if an element is visible on the page within a given timeout.
         Returns True or False. Does not fail the test.
@@ -115,7 +117,6 @@ class BasePage:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
             raise
 
-<<<<<<< HEAD
     @allure.step("Wait for element to be present: {locator}")
     def wait_for_element(self, locator, timeout=20):
         """
@@ -139,39 +140,47 @@ class BasePage:
         try:
             element = self.driver.find_element(*locator)
             self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            time.sleep(0.5)
             self.logger.info(f"Scrolled to element: {locator}")
         except Exception as e:
             self.logger.error(f"Error scrolling to element {locator}: {e}")
             raise
+    @allure.step("Hovering Element: {locator}")
+    def hover_to_element(self, locator):
+        """
+        Hovers mouse over an element after waiting for it to be visible and clickable.
+        Fails the test immediately if the element is not found within the timeout.
+        """
 
-    # @allure.step("wait for the window : {locator}")
-    # def switch_to_window(self,locator):
-    #     try:
-    #         element=self.driver.find_element(*locator)
-    #         all_id=self.driver.window_handles
-    #         print(all_id)
-    #         for windowpop in all_id[1]:
-    #             self.driver.switch_to.window(windowpop)
-    #     except Exception as e:
-    #         self.logger.error(f"Error switching to child window to element {locator}: {e}")
-    #         raise
-=======
-    @allure.step("Scrolling to element: {locator}")
-    def scroll_to_element(self, locator):
-        """Scrolls until the element is visible in viewport."""
         try:
-            element = self.wait.until(
-                EC.visibility_of_element_located(locator)
-            )
-            self.driver.execute_script(
-                "arguments[0].scrollIntoView({block: 'center'});",
-                element
-            )
-            self.logger.info(f"Scrolled to element: {locator}")
-            return element
-        except Exception as e:
-            self.logger.error(f"Failed to scroll to element {locator}. Error: {e}")
+            element = self.wait.until(EC.visibility_of_element_located(locator))
+            element = self.wait.until(EC.element_to_be_clickable(locator))
+
+            actions = ActionChains(self.driver)
+            actions.move_to_element(element).perform()
+
+            self.logger.info(f"Successfully hovered over element: {locator}")
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element not hoverable for {locator}")
             raise
+
+    @allure.step("Typing single char '{char}' into element: {locator}")
+    def send_char(self, locator, char):
+        """
+        Types exactly one character into an element without clearing existing value.
+        Waits for the element to be visible first.
+        """
+        try:
+            if len(char) != 1:
+                raise ValueError(f"send_char expects a single character, got: {repr(char)}")
+
+            element = self.wait.until(EC.visibility_of_element_located(locator))
+            element.send_keys(char)
+            self.logger.info(f"Successfully typed char {repr(char)} into element: {locator}")
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element not visible for single-char entry: {locator}")
+            raise
+
 
     @allure.step("Select element by value: {value}")
     def select_dropdown_by_value(self, locator, value):
@@ -200,7 +209,6 @@ class BasePage:
 
 
 
->>>>>>> dc197b54926a58cf1eef86fa71bd0754eb63893d
 
 
 

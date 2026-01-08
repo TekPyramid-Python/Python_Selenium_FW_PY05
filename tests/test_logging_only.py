@@ -1,6 +1,6 @@
 # tests/test_logging_only.py
 import allure
-from ..utils.logger import get_logger
+from utils.logger import get_logger
 
 # Get the logger instance. It's already been configured by the fixture in conftest.py
 # before this test even starts.
