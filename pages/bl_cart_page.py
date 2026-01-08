@@ -1,4 +1,4 @@
-# pages/cart_page.py
+# pages/bl_cart_page.py
 
 from ..pages.base_page import BasePage
 from selenium.webdriver.common.by import By

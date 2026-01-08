@@ -2,6 +2,8 @@
 Base Page class containing common, reusable methods for all page objects.
 This class is the foundation of the Page Object Model pattern.
 """
+
+import allure
 import time
 
 import allure
@@ -59,6 +61,14 @@ class BasePage:
         except TimeoutException:
             self.logger.error(f"Timeout: Element not visible for text entry: {locator}")
             raise
+
+    def js_send_keys(self, locator, value):
+        element = self.wait.until(EC.presence_of_element_located(locator))
+        self.driver.execute_script("""
+            arguments[0].value = arguments[1];
+            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
+            arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+        """, element, value)
 
     @allure.step("Checking if Element is visible: {locator}")
     def is_visible(self, locator, timeout=10):
