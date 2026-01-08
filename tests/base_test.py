@@ -12,8 +12,10 @@ import logging
 import time
 from pathlib import Path
 
-from utils.logger import get_logger
-from config.environment import Environment
+
+from ..utils.logger import get_logger
+from ..config.environment import Environment
+
 
 # --- NEW: Define Project Root as a Global Constant ---
 # This is a robust way to get your project's root directory.
@@ -47,6 +49,7 @@ class BaseTest:
             self.driver.implicitly_wait(self.env.config['browser']['implicit_wait'])
             self.driver.set_page_load_timeout(self.env.config['browser']['page_load_timeout'])
 
+
         yield
 
         with allure.step("Test Teardown"):
@@ -78,6 +81,7 @@ class BaseTest:
         Sets up Chrome WebDriver using your comprehensive list of options.
         """
         options = ChromeOptions()
+        options.page_load_strategy = 'eager'
 
         # Use the PROJECT_ROOT constant defined at the top of the file
         profile_path = PROJECT_ROOT / "automation_chrome_profile"
@@ -88,6 +92,7 @@ class BaseTest:
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         prefs = {
             "credentials_enable_service": False,
+            "profile.default_content_setting_values.notifications": 2,
             "profile.password_manager_enabled": False,
             "profile.password_manager_leak_detection": False
         }

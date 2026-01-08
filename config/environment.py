@@ -57,4 +57,8 @@ class Environment:
     
     def get_logging_config(self):
         """Get logging configuration."""
-        return self.config['logging'] 
+        return self.config['logging']
+
+    def get_email(self):
+        """Get username for current environment."""
+        return self.current_env['email']
