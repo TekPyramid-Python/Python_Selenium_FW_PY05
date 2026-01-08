@@ -67,3 +67,6 @@ environments:
     base_url: "https://www.dentalkart.com/"
     username: "suraj.rpee24@gmail.com"
     password: "cherry"
+
+  clinicwala:
+    base_url: "https://www.clinicwala.com"
