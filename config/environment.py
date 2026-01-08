@@ -19,9 +19,10 @@ class Environment:
         Args:
             env_name: Environment name (dev, staging, prod). If None, uses ENV environment variable or defaults to 'dev'
         """
-        self.env_name = env_name or os.getenv('ENV', 'rent')
+        self.env_name = env_name or os.getenv('ENV', 'dev')
         self.config = self._load_config()
-        self.current_env = self.config['environments'][self.env_name]
+        # self.current_env = self.config['environments'][self.env_name]
+        self.current_env = self.config['environments']['rent']
     
     def _load_config(self):
         """

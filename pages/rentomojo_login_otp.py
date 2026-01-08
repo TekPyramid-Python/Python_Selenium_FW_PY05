@@ -3,6 +3,7 @@ from time import sleep
 import allure
 import pytest
 
+from .furniture_page import Furniture_Module
 from ..config.environment import Environment
 from ..pages.base_page import BasePage
 
@@ -16,12 +17,10 @@ LOGOUT_BTN = ("css selector", "ul.nav-arrow.rm-user__loggedIn>li:nth-child(4)")
 @pytest.fixture(scope="function")
 def rentomojo_login(request):
     driver=request.cls.driver
-    base =BasePage(driver)
-    env = Environment()
-    base_url = env.get_base_url()
-    with allure.step("Navigating to url"):
-        base.navigate_to(base_url)
-        base.wait_till_pageload()
+    base=BasePage(driver)
+    with allure.step("Navigating to website"):
+            furniture = Furniture_Module(driver)
+            furniture.navigate_to_website()
     with allure.step("Navigate and perform a successful login"):
         try:
             base.click(LOGIN_BUTTON)
