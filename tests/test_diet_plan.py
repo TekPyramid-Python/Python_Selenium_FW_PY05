@@ -13,7 +13,7 @@ from tests.base_test import BaseTest
 @allure.feature("Food and Diet")
 @allure.story("To get Diet plan")
 class TestDietPlan(BaseTest):
-    @pytest.mark.clinicwala
+
     def test_get_dietplan(self):
         home_page = HomePage(self.driver)
         dietplan_page=DietPlanPage(self.driver)

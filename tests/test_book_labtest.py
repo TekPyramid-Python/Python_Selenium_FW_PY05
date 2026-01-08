@@ -10,7 +10,7 @@ from tests.base_test import BaseTest
 @allure.feature("Pathology")
 @allure.story("To book lab test")
 class TestPathology(BaseTest):
-    @pytest.mark.clinicwala
+
     def test_book_labtest(self):
         home_page = HomePage(self.driver)
         janchwala_page= PathologyPage(self.driver)

@@ -14,7 +14,7 @@ from tests.base_test import BaseTest
 @allure.feature("Dawaiwala")
 @allure.story("To book medicine")
 class TestBuyMedicine(BaseTest):
-    @pytest.mark.clinicwala
+
     def test_book_medicine(self):
         home_page = HomePage(self.driver)
         dawaiwala_page = MedicinePage(self.driver)
