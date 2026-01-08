@@ -203,10 +203,21 @@ class BasePage:
             )
 
             # Scroll element into view
-            self.driver.execute_script(
-                "arguments[0].scrollIntoView({block: 'center'});", element
-            )
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+            # Small wait for animation
+            self.driver.implicitly_wait(1)
 
+            try:
+                element.click()
+            except Exception:
+                # Fallback to JS click
+                self.driver.execute_script("arguments[0].click();", element)
+
+            self.logger.info(f"Successfully clicked element: {save_button}")
+
+        except Exception as e:
+            self.logger.error(f"Failed to click element: {save_button} | Error: {e}")
+            raise
 
 
 

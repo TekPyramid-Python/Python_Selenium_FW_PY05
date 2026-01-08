@@ -20,7 +20,7 @@ class ModiHomePage(BasePage):
         self.click(self.button)
 
     def brand_hover_method(self):
-        self.nav_to_brand_hover(self.brand_hover)
+        self.hover_to_element(self.brand_hover)
         self.click(self.brand_product)
 
     def blog_method(self):
