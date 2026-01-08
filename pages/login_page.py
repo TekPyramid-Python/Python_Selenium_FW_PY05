@@ -55,6 +55,7 @@
 
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
+from selenium.webdriver.support import expected_conditions as EC
 
 class LoginPage(BasePage):
 
@@ -75,3 +76,37 @@ class LoginPage(BasePage):
 
     def get_password_value(self):
         return self.driver.find_element(*self.PASSWORD_INPUT).get_attribute("value")
+
+class LoginPage(BasePage):
+
+    EMAIL_INPUT = (By.ID, "CustomerEmail")
+    PASSWORD_INPUT = (By.ID, "CustomerPassword")
+    LOGIN_BUTTON = (By.XPATH, "//input[@type='submit']")
+
+    def open_login_page(self):
+        self.driver.get("https://www.mianzi.in/account/login")
+        self.wait.until(EC.visibility_of_element_located(self.EMAIL_INPUT))
+
+    def enter_credentials(self, email, password):
+        self.send_keys(self.EMAIL_INPUT, email)
+        self.send_keys(self.PASSWORD_INPUT, password)
+
+    def click_login(self):
+        self.js_click(self.LOGIN_BUTTON)
+
+    def login(self, email, password):
+        self.open_login_page()
+        self.enter_credentials(email, password)
+        self.click_login()
+
+    def js_click(self, LOGIN_BUTTON):
+        pass
+
+
+
+
+
+
+
+
+
