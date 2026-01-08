@@ -15,7 +15,7 @@ def log_in_and_out(request):
     home_page = HomePage(driver)
     login_page = LoginPage(driver)
     profile_page = ProfilePage(driver)
-    env = Environment()
+    env = Environment("dental_kart")
 
     # --- SETUP: Login ---
     with allure.step("Fixture: Navigating and Logging In"):
