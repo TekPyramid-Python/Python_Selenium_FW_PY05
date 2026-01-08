@@ -70,3 +70,8 @@ environments:
 
   clinicwala:
     base_url: "https://www.clinicwala.com"
+
+  himadri:
+    base_url: "https://himadrigardens.com/"
+    email: "arshalokanathan@gmail.com"
+    password: "JaQ56y5KbLxwY@t"

@@ -8,6 +8,8 @@ import time
 
 import allure
 from selenium.webdriver import ActionChains
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -212,3 +214,87 @@ class BasePage:
 
 
 
+
+    @allure.step("Getting page url")
+    def get_current_page_url(self):
+        """Gets the url of the current page."""
+        url = self.driver.current_url
+        self.logger.info(f"Current page url: {url}")
+        return url
+
+    @allure.step("Wait for the presence of locator")
+    def wait_for_presence(self, locator):
+        try:
+            elements = self.wait.until(
+                EC.presence_of_all_elements_located(locator)
+            )
+            self.logger.info(f"Elements are present in DOM: {locator}")
+            return elements
+        except TimeoutException:
+            self.logger.error(f"Timeout: Elements not present in DOM: {locator}")
+            raise
+
+    @allure.step("Wait for the presence of locator")
+    def wait_for_visibility(self, locator):
+        try:
+            elements = self.wait.until(
+                EC.visibility_of_element_located(locator)
+            )
+            self.logger.info(f"Elements are visible in DOM: {locator}")
+            return elements
+        except TimeoutException:
+            self.logger.error(f"Timeout: Elements not present in DOM: {locator}")
+            raise
+
+    @allure.step("Select dropdown option by visible text: {text}")
+    def select_dropdown_by_visible_text(self, locator, text):
+        try:
+            element = self.wait.until(
+                EC.presence_of_element_located(locator)
+            )
+            Select(element).select_by_visible_text(text)
+            self.logger.info(
+                f"Dropdown option '{text}' selected for locator: {locator}"
+            )
+        except TimeoutException:
+            self.logger.error(
+                f"Timeout: Dropdown not found for locator: {locator}"
+            )
+            raise
+
+    @allure.step("Send text '{text}' and press ENTER")
+    def send_text_and_press_enter(self, locator, text):
+        try:
+            element = self.wait.until(
+                EC.visibility_of_element_located(locator)
+            )
+            element.clear()
+            element.send_keys(text)
+            element.send_keys(Keys.ENTER)
+
+            self.logger.info(
+                f"Entered text '{text}' and pressed ENTER for locator: {locator}"
+            )
+
+        except TimeoutException:
+            self.logger.error(
+                f"Failed to send text and press ENTER for locator: {locator}"
+            )
+            raise
+
+    @allure.step("Select value '{value}' from custom dropdown")
+    def select_from_custom_dropdown(self, dropdown_locator, search_input_locator, value):
+        try:
+            self.click(dropdown_locator)
+
+            # Type + ENTER
+            self.send_text_and_press_enter(
+                search_input_locator,
+                value
+            )
+
+            self.logger.info(f"Selected '{value}' from custom dropdown")
+
+        except TimeoutException:
+            self.logger.error(f"Failed to select '{value}' from custom dropdown")
+            raise
