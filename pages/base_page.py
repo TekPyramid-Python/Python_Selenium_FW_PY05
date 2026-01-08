@@ -4,9 +4,11 @@ This class is the foundation of the Page Object Model pattern.
 """
 
 import allure
+import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import Select
 from utils.logger import get_logger  # Import our central logger utility
 
 
@@ -57,6 +59,14 @@ class BasePage:
             self.logger.error(f"Timeout: Element not visible for text entry: {locator}")
             raise
 
+    def js_send_keys(self, locator, value):
+        element = self.wait.until(EC.presence_of_element_located(locator))
+        self.driver.execute_script("""
+            arguments[0].value = arguments[1];
+            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
+            arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+        """, element, value)
+
     @allure.step("Checking if Element is visible: {locator}")
     def is_visible(self, locator, timeout=10):
         """
@@ -103,3 +113,51 @@ class BasePage:
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
             raise
+
+    @allure.step("Scrolling to element: {locator}")
+    def scroll_to_element(self, locator):
+        """Scrolls until the element is visible in viewport."""
+        try:
+            element = self.wait.until(
+                EC.visibility_of_element_located(locator)
+            )
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block: 'center'});",
+                element
+            )
+            self.logger.info(f"Scrolled to element: {locator}")
+            return element
+        except Exception as e:
+            self.logger.error(f"Failed to scroll to element {locator}. Error: {e}")
+            raise
+
+    @allure.step("Select element by value: {value}")
+    def select_dropdown_by_value(self, locator, value):
+        element = self.wait.until(
+            EC.element_to_be_clickable(locator)
+        )
+        Select(element).select_by_value(value)
+
+    def upload_file(self, locator, file_path):
+        self.driver.find_element(*locator).send_keys(file_path)
+
+    def wait_for_dom_ready(self, timeout=20):
+        WebDriverWait(self.driver, timeout).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+
+    def wait_and_click(self, locator, timeout=30):
+        wait = WebDriverWait(self.driver, timeout, poll_frequency=0.5)
+        wait.until(lambda d: d.find_element(*locator).is_enabled())
+        self.driver.find_element(*locator).click()
+
+
+
+
+
+
+
+
+
+
+
