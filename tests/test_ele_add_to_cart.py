@@ -1,0 +1,40 @@
+import allure
+import pytest
+
+from config.environment import Environment
+from pages.elle_add_to_cart import AddToCart
+from tests.base_test import BaseTest
+
+
+@allure.feature("Authentication")
+@allure.story("User Login")
+class TestCart(BaseTest):
+
+    """
+    Test class for login functionality against saucedemo.com.
+    """
+
+    @allure.title("Test successful login with valid credentials")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @pytest.mark.sanity
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    def test_successful_login(self):
+        """
+        Test Case: Verify successful login using credentials from config.yaml.
+        """
+        # --- Initialize pages and variables ---
+        add_cart=AddToCart(self.driver)
+        env = Environment("home")  # Uses ENV=demo by default if not set
+        base_url = env.get_base_url()
+        # username = env.get_username()
+        # password = env.get_password()
+
+        with allure.step("Navigate to login page"):
+            add_cart.navigate_to(base_url)
+
+        with allure.step("search the product"):
+            add_cart.add_to_cart('bowls','ua32876')
+
+
+
