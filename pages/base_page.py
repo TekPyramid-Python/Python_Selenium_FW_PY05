@@ -202,6 +202,37 @@ class BasePage:
         wait.until(lambda d: d.find_element(*locator).is_enabled())
         self.driver.find_element(*locator).click()
 
+    def click_save_button(self, save_button, timeout=10):
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.element_to_be_clickable(save_button)
+            )
+
+            # Scroll element into view
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block: 'center'});", element
+            )
+
+            # Small wait for animation
+            self.driver.implicitly_wait(1)
+
+            try:
+                element.click()
+            except Exception:
+                # Fallback to JS click
+                self.driver.execute_script("arguments[0].click();", element)
+
+            self.logger.info(f"Successfully clicked element: {save_button}")
+
+        except Exception as e:
+            self.logger.error(f"Failed to click element: {save_button} | Error: {e}")
+            raise
+
+    def select_by_visible_text(self, drop_down):
+        dropdown = Select(self.wait.until(EC.element_to_be_clickable(drop_down)))
+        dropdown.select_by_visible_text("500ml Pet Bottle")
+        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
+
 
 
 
