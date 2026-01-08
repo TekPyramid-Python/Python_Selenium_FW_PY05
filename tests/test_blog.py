@@ -1,45 +1,64 @@
-import pytest
+# tests/test_login.py
 import allure
+import pytest
+
 from config.environment import Environment
-from pages.modi_home_page import ModiHomePage
-from pages.modi_login import ModiLoginPage
+from pages.blog_page import BlogPage
 from tests.base_test import BaseTest
-from pages.modi_blog_page import ModiBlogPage
-from pages.modi_product_list_page import ModiProductListPage
-from pages.modi_product_page import ModiProductPage
-from pages.modi_cart_page import ModiCartPage
 
+
+# @allure.feature("Authentication")
+# @allure.story("User Login")
 class TestBlog(BaseTest):
-    @allure.title("Test login page to verify screenshot on failure")
+    """
+    Test class for login functionality against saucedemo.com.
+    """
+
+    @allure.title("Test successful login with valid credentials")
     @allure.severity(allure.severity_level.MINOR)
-    @pytest.mark.system
-    def test_blog_for_modi(self):
-        modi_home_page = ModiHomePage(self.driver)
-        modi_login_page = ModiLoginPage(self.driver)
-        modi_blog_page=ModiBlogPage(self.driver)
-        modi_product_list_page=ModiProductListPage(self.driver)
-        modi_product_page=ModiProductPage(self.driver)
-        modi_cart_page=ModiCartPage(self.driver)
-
-
-        env = Environment("modi")
+    @pytest.mark.sanity
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    def test_successful_login(self):
+        """
+        Test Case: Verify successful login using credentials from config.yaml.
+        """
+        # --- Initialize pages and variables ---
+        blog_page = BlogPage(self.driver)
+        env = Environment("test")  # Uses ENV=demo by default if not set
         base_url = env.get_base_url()
-        username = env.get_username()
-        password = env.get_password()
+        # username = env.get_username()
 
-        with allure.step("Navigate and perform a successful automation"):
-            modi_home_page.navigate_to(base_url)
-            modi_home_page.nav_to_login()
-            modi_login_page.login(username, password)
-            assert modi_login_page.is_login_successful(), "Login step failed before the intended assertion."
-            modi_home_page.blog_method()
-            modi_blog_page.modi_blog_recepi()
-            modi_home_page.recepi_method()
-            modi_blog_page.modi_blog_recepi()
-            modi_home_page.modi_home_page()
-            modi_product_list_page.modi_product_list_page()
-            modi_product_page.modi_product_page()
-            modi_cart_page.modi_view_cart_page()
-            modi_cart_page.modi_size_button()
 
+        with allure.step("Navigate to Blog page"):
+            blog_page.navigate_to(base_url)
+            # The is_visible method is inherited from BasePage
+            assert blog_page.is_visible(blog_page.BLOG_IMAGE), "Blog page did not load properly"
+
+        with allure.step("Clicking Blog button"):
+            blog_page.click_blog_button()
+            assert blog_page.is_visible(blog_page.BLOG_BUTTON),"Blog Button is visible or not"
+
+        with allure.step("Click Blog Image"):
+            blog_page.click_blog_image()
+            assert blog_page.is_visible(blog_page.BLOG_IMAGE),"Blog Button is not visible"
+
+        with allure.step("Scroll Down to Element"):
+            blog_page.scroll_down()
+            assert blog_page.is_visible(blog_page.SCROLL_DOWN),"Not scrolling down properly"
+
+        with allure.step("Enter Email ID"):
+            blog_page.enter_email("abcd@gmail.com")
+            assert blog_page.is_visible(blog_page.ENTER_EMAIL_ID),"Email Id is not visible"
+
+        with allure.step("Click Submit button"):
+            blog_page.click_submit()
+            assert blog_page.is_visible(blog_page.CLICK_SUBMIT),"Blog Button is visible or not"
+
+        with allure.step("Verify successful blog and page title"):
+            assert blog_page.is_subscribe_successful(), "Subscribe was not successful, inventory page not found."
+
+            expected_title = 'Vanalaya'# This is the correct title for saucedemo
+            actual_title = blog_page.get_title()  # This method is inherited from BasePage
+            assert expected_title == actual_title, f"Expected title '{expected_title}', but got '{actual_title}'"
 

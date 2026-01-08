@@ -1,35 +1,40 @@
 import pytest
 import allure
-from config.environment import Environment
-from pages.modi_home_page import ModiHomePage
-from pages.modi_brand_product_page import ModiBrandProductPage
-from pages.modi_billing_page import ModiBillingPage
-from pages.modi_cart_page import ModiCartPage
-from pages.modi_product_list_page import ModiProductListPage
+from tests.test_login_and_logout import log_in_and_out
+from pages.dental_wishlist_page import WishListPage
+from pages.dental_kart_profile import ProfilePage
+from pages.dental_home_page import HomePage
+from pages.dental_kart_search_page import Search
+from pages.dental_kart_product_page import Product
+from pages.dental_cart import Cart
 from tests.base_test import BaseTest
+from time import sleep
 
 class TestBrand(BaseTest):
-    @allure.title("Test order page to verify ")
-    @allure.severity(allure.severity_level.MINOR)
-    @pytest.mark.integration
-    def test_brand_for_orders(self):
-        modi_home_page=ModiHomePage(self.driver)
-        modi_product_list_page=ModiProductListPage(self.driver)
-        modi_brand_product_page=ModiBrandProductPage(self.driver)
-        modi_cart_page=ModiCartPage(self.driver)
-        modi_billing_page=ModiBillingPage(self.driver)
+    @pytest.mark.smoke
+    @pytest.mark.dental
+    def test_change_profile_name(self,log_in_and_out):
+        home_page = HomePage(self.driver)
+        search_page=Search(self.driver)
+        product_page=Product(self.driver)
+        cart=Cart(self.driver)
+        profile=ProfilePage(self.driver)
+        wishlist=WishListPage(self.driver)
+        with allure.step("removing all the products from cart"):
+            home_page.click_cart()
+            cart.remove_all_items_from_cart()
+            cart.click_home_page()
+
+        with allure.step("selecting a product based on brand"):
+            home_page.brand_selection()
+            product_page.add_product()
+
+        with allure.step("entering feedback"):
+            product_page.enter_feedback("iron",250,"good")
+            self.driver.refresh()
+            product_page.click_profile()
 
 
-        env = Environment("modi")
-        base_url = env.get_base_url()
-
-        with allure.step("Navigate and perform a successful automation"):
-            modi_home_page.navigate_to(base_url)
-            modi_home_page.brand_hover_method()
-            modi_product_list_page.modi_product_list_page()
-            modi_brand_product_page.modi_brand_product()
-            modi_cart_page.modi_view_cart_page()
-            modi_cart_page.modi_cart_page()
-            modi_billing_page.modi_billing_page()
-
-
+        with allure.step("changing profile name"):
+            profile.full_name_change("suraj")
+            cart.click_home_page()

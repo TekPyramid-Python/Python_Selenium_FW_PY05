@@ -3,8 +3,8 @@
 browser:
   default: "chrome"
   headless: false
-  implicit_wait: 30
-  page_load_timeout: 30
+  implicit_wait: 20
+  page_load_timeout: 60
 
 logging:
   level: "INFO"
@@ -24,7 +24,8 @@ environments:
     base_url: "https://dev.example.com"
     username: "dev_user"
     password: "dev_pass"
-  
+
+
   # Your actual staging environment
   staging:
     base_url: "https://staging.example.com"
@@ -37,12 +38,37 @@ environments:
     username: "prod_user"
     password: "prod_pass"
 
+  modi:
+    base_url: "https://modiretail.com/"
+    username: "ashagudisagar30@gmail.com"
+    password: "8197375829"
+
+
   digitgo:
     base_url: "https://www.godigit.com/"
     username: ""
     password: ""
 
-  modi:
-    base_url: "https://modiretail.com/"
-    username: "ashagudisagar30@gmail.com"
-    password: "8197375829"
+  #my website url
+  test:
+    base_url: "https://vanalaya.com/"
+    username: "abcd@gmail.com"
+#    password: "87654321"
+  newapp:
+     base_url: "https://brownliving.in/"
+     username: "N/A" # not required for this website
+     password: "N/A"
+
+
+
+  #iTokri environment
+  itokri:
+    base_url: "https://itokri.com"
+    username: "arijit.singh@gmail.com"
+    password: "Arijit@1234"
+
+  # dentalkart testing enviroment
+  dental_kart:
+    base_url: "https://www.dentalkart.com/"
+    username: "suraj.rpee24@gmail.com"
+    password: "cherry"

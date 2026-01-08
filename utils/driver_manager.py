@@ -123,4 +123,4 @@ class DriverManager:
             self.logger.info("WebDriver configured with common settings")
         except Exception as e:
             self.logger.error(f"Error configuring WebDriver: {str(e)}")
-            raise 
+            raise

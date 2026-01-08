@@ -4,6 +4,10 @@ This class is the foundation of the Page Object Model pattern.
 """
 
 import allure
+import time
+
+import allure
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -55,6 +59,14 @@ class BasePage:
         except TimeoutException:
             self.logger.error(f"Timeout: Element not visible for text entry: {locator}")
             raise
+
+    def js_send_keys(self, locator, value):
+        element = self.wait.until(EC.presence_of_element_located(locator))
+        self.driver.execute_script("""
+            arguments[0].value = arguments[1];
+            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
+            arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+        """, element, value)
 
     @allure.step("Checking if Element is visible: {locator}")
     def is_visible(self, locator, timeout=10):
@@ -126,23 +138,67 @@ class BasePage:
         try:
             element = self.driver.find_element(*locator)
             self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            time.sleep(0.5)
             self.logger.info(f"Scrolled to element: {locator}")
         except Exception as e:
             self.logger.error(f"Error scrolling to element {locator}: {e}")
             raise
-
-    @allure.step("nav_to_brand_hover: {brand_hover}")
-    def nav_to_brand_hover(self, brand_hover):
+    @allure.step("Hovering Element: {locator}")
+    def hover_to_element(self, locator):
         """
-        Hovers over an element on the page.
+        Hovers mouse over an element after waiting for it to be visible and clickable.
+        Fails the test immediately if the element is not found within the timeout.
+        """
+
+        try:
+            element = self.wait.until(EC.visibility_of_element_located(locator))
+            element = self.wait.until(EC.element_to_be_clickable(locator))
+
+            actions = ActionChains(self.driver)
+            actions.move_to_element(element).perform()
+
+            self.logger.info(f"Successfully hovered over element: {locator}")
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element not hoverable for {locator}")
+            raise
+
+    @allure.step("Typing single char '{char}' into element: {locator}")
+    def send_char(self, locator, char):
+        """
+        Types exactly one character into an element without clearing existing value.
+        Waits for the element to be visible first.
         """
         try:
-            element = self.driver.find_element(*brand_hover)
-            ActionChains(self.driver).move_to_element(element).perform()
-            self.logger.info(f"Hovered over element: {brand_hover}")
-        except Exception as e:
-            self.logger.error(f"Error hovering over element {brand_hover}: {e}")
+            if len(char) != 1:
+                raise ValueError(f"send_char expects a single character, got: {repr(char)}")
+
+            element = self.wait.until(EC.visibility_of_element_located(locator))
+            element.send_keys(char)
+            self.logger.info(f"Successfully typed char {repr(char)} into element: {locator}")
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element not visible for single-char entry: {locator}")
             raise
+
+
+    @allure.step("Select element by value: {value}")
+    def select_dropdown_by_value(self, locator, value):
+        element = self.wait.until(
+            EC.element_to_be_clickable(locator)
+        )
+        Select(element).select_by_value(value)
+
+    def upload_file(self, locator, file_path):
+        self.driver.find_element(*locator).send_keys(file_path)
+
+    def wait_for_dom_ready(self, timeout=20):
+        WebDriverWait(self.driver, timeout).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+
+    def wait_and_click(self, locator, timeout=30):
+        wait = WebDriverWait(self.driver, timeout, poll_frequency=0.5)
+        wait.until(lambda d: d.find_element(*locator).is_enabled())
+        self.driver.find_element(*locator).click()
 
     def click_save_button(self, save_button, timeout=10):
         try:
@@ -174,3 +230,15 @@ class BasePage:
         dropdown = Select(self.wait.until(EC.element_to_be_clickable(drop_down)))
         dropdown.select_by_visible_text("500ml Pet Bottle")
         self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
+        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
+
+
+
+
+
+
+
+
+
+
+
