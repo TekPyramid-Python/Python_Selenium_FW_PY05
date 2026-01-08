@@ -1,39 +1,37 @@
 import allure
 import pytest
-from selenium import webdriver
-from pages.contact_us_page import ContactUsPage
+
+from config.environment import Environment
+from pages.contact_page import ContactPage
+from tests.base_test import BaseTest
 
 
-@allure.feature("Contact Us Page")
-@allure.story("Contact form submission")
-class TestContactUsPage:
+# @allure.feature("Authentication")
+# @allure.story("User Login")
+class TestContact(BaseTest):
+    """
+    Test class for login functionality against saucedemo.com.
+    """
 
-    @pytest.fixture
-    def driver(self):
-        driver = webdriver.Chrome()
-        driver.maximize_window()
-        yield driver
-        driver.quit()
+    @allure.title("Test successful login with valid credentials")
+    @allure.severity(allure.severity_level.MINOR)
+    @pytest.mark.sanity
+    @pytest.mark.smoke
+    @pytest.mark.regression
+    def test_enter_contact_successful(self):
+        """
+        Test Case: Verify successful login using credentials from config.yaml.
+        """
+        # --- Initialize pages and variables ---
+        contact_page = ContactPage(self.driver)
+        env = Environment("test")  # Uses ENV=demo by default if not set
+        base_url = env.get_base_url()
+        username = env.get_username()
 
-    @allure.title("Verify Contact Us page loads successfully")
-    def test_contact_page_load(self, driver):
-        contact = ContactUsPage(driver)
 
-        contact.open_contact_us()
-        assert contact.is_contact_page_loaded(), "Contact page did not load"
 
-    @allure.title("Verify Contact form submission with dropdown")
-    def test_contact_form_submission(self, driver):
-        contact = ContactUsPage(driver)
 
-        contact.open_contact_us()
 
-        contact.fill_contact_form(
-            first="Malini",
-            email="malini@test.com",
-            country="India",
-            help_on="General Enquiry",
-            message="Testing contact form with Allure"
-        )
 
-        contact.submit_form()
+
+

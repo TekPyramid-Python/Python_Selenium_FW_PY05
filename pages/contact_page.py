@@ -1,30 +1,36 @@
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
-from selenium import webdriver
 
-class ContactUsPage(BasePage):
+class ContactPage(BasePage):
+    CONTACT_CLICK = (By.CSS_SELECTOR,'div.col-10>ul li.nav-item.dropdown:nth-child(5)')
+    ENTER_NAME = (By.XPATH,'//input[@placeholder="Name"]')
+    ENTER_EMAIL = (By.XPATH,'//input[@placeholder="Email"]')
+    ENTER_PHONE = (By.XPATH,'//input[@placeholder=" Phone/Mobile"]')
+    ENTER_DEPARTMENT = (By.XPATH,'//input[@placeholder="Department"]')
+    ENTER_QUERIES = (By.XPATH,'//textarea[@placeholder="Enter Your Queries"]')
+    SCROLL_TO_SUBMIT = (By.ID,'contact-form-block-button_JTgfjB')
+    CLICK_SUBMIT = (By.ID,'contact-form-block-button_JTgfjB')
+    CONTACT_TITLE = (By.CSS_SELECTOR,'div.col-10>ul li.nav-item.dropdown:nth-child(5)')
 
-    CONTACT_US_URL = "https://example.com/contact"
 
 
-    PAGE_HEADER = (By.XPATH, "//h1[contains(text(),'Contact')]")
-    FIRST_NAME = (By.ID, "firstName")
-    EMAIL = (By.ID, "email")
-    COUNTRY_DROPDOWN = (By.ID, "country")
-    HELP_ON_DROPDOWN = (By.ID, "helpOn")
-    MESSAGE = (By.ID, "message")
-    SUBMIT_BUTTON = (By.XPATH, "//button[@type='submit']")
+    def __init__(self,driver):
+        super().__init__(driver)
 
-    def open_contact_us(self):
-        self.driver.get(self.CONTACT_US_URL)
+    def click_contact_button(self):
+        self.click(self.CONTACT_CLICK)
+        self.logger.info("Clicked the Contact button.")
 
-    def fill_contact_form(self, first, email, country, help_on, message):
-        self.find(self.FIRST_NAME).send_keys(first)
-        self.find(self.EMAIL).send_keys(email)
-        self.select_by_visible_text(self.COUNTRY_DROPDOWN, country)
-        self.select_by_visible_text(self.HELP_ON_DROPDOWN, help_on)
+    def enter_details(self, name, email, phone, department, queries):
+        self.js_send_keys(self.ENTER_NAME,name)
+        self.logger.info(f"Entered the Email ID:{name}")
 
-        self.find(self.MESSAGE).send_keys(message)
+        self.js_send_keys(self.ENTER_EMAIL, email)
+        self.logger.info(f"Entered the Email ID:{email}")
 
-    def submit_form(self):
-        self.find(self.SUBMIT_BUTTON).click()
+
+
+
+
+
+

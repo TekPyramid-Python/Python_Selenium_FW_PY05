@@ -22,15 +22,4 @@ class BlogPage(BasePage):
                 EC.presence_of_element_located(self.PAGE_TITLE)
             )
 
-    def is_blog_content_visible(self):
-        try:
-            WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located(self.BLOG_IMAGES)
-            )
-            return True
-        except TimeoutException:
-            self.logger.error("Blog images not visible")
-            return False
 
-    def navigate_home(self):
-        self.navigate_to("https://www.swasthyawarriors.com")

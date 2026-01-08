@@ -1,6 +1,8 @@
 # pages/login_page.py
+from asyncio import timeout
+
 from selenium.webdriver.common.by import By
-from pages.base_page import BasePage # Import the BasePage
+from ..pages.base_page import BasePage # Import the BasePage
 
 class LoginPage(BasePage): # Make LoginPage inherit from BasePage
     """
@@ -22,6 +24,9 @@ class LoginPage(BasePage): # Make LoginPage inherit from BasePage
         Performs a full login action using methods inherited from BasePage.
         """
         self.logger.info(f"Attempting to log in with username: {username}")
+        self.send_keys(self.USERNAME_INPUT, username)
+        self.send_keys(self.PASSWORD_INPUT, password)
+        self.click(self.LOGIN_BUTTON,timeout = 10)
         self.send_keys(self.username)
         self.send_keys(self.FIRST_NAME, first)
         self.click(self.LOGIN_BUTTON)

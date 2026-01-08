@@ -2,6 +2,9 @@
 import allure
 import pytest
 
+from ..config.environment import Environment
+from ..pages.login_page import LoginPage
+from ..tests.base_test import BaseTest
 from config.environment import Environment
 from pages.contact_us_page import ContactUsPage
 from pages.home_page import HomePage
@@ -54,23 +57,23 @@ class TestLogin(BaseTest):
         """
         Test Case: Verify login failure with deliberately incorrect credentials.
         """
-        contact_page = ContactUsPage(self.driver)
+        login_page = LoginPage(self.driver)
         env = Environment()
         base_url = env.get_base_url()
 
         with allure.step("Navigate to login page"):
-            contact_page.navigate_to(base_url)
-            assert contact_page.is_visible(contact_page.EMAIL_INPUT), "Login page did not load properly"
+            login_page.navigate_to(base_url)
+            assert login_page.is_visible(login_page.USERNAME_INPUT), "Login page did not load properly"
 
         with allure.step("Attempt login with invalid credentials"):
-             contact_page.FIRST_NAME_INPUT("invalid_user", "invalid_password")
+            login_page.login("invalid_user", "invalid_password")
 
         with allure.step("Verify error message is displayed and correct"):
-            error_message = contact_page.get_error_message()
+            error_message = login_page.get_error_message()
             expected_error_text = "Username and password do not match"  # Specific error from saucedemo
 
             assert expected_error_text in error_message, f"Incorrect error message. Expected to see '{expected_error_text}'"
-            assert not contact_page.is_login_successful(), "User should not be logged in with invalid credentials"
+            assert not login_page.is_login_successful(), "User should not be logged in with invalid credentials"
 
     # Add this new test method inside the TestLogin class in tests/test_login.py
 
@@ -82,21 +85,21 @@ class TestLogin(BaseTest):
         This test purposefully fails after a successful login to verify
         that the screenshot-on-failure mechanism is working correctly.
         """
-        contact_page= ContactUsPage(self.driver)
+        login_page = LoginPage(self.driver)
         env = Environment()
         base_url = env.get_base_url()
 
         with allure.step("Navigate and perform a successful login"):
-            contact_page.navigate_to(base_url)
+            login_page.navigate_to(base_url)
             username = env.get_username()
             password = env.get_password()
-            contact_page.FIRST_NAME_INPUT(username, password)
-            assert contact_page.is_Contact_successful(), "Login step failed before the intended assertion."
+            login_page.login(username, password)
+            assert login_page.is_login_successful(), "Login step failed before the intended assertion."
 
         with allure.step("Intentionally fail the test with a bad assertion"):
             self.logger.info("Now asserting for an incorrect title to trigger a failure.")
 
             expected_title = "An Incorrect Title"  # This is wrong on purpose
-            actual_title = contact_page.get_title()
+            actual_title = login_page.get_title()
 
             assert expected_title == actual_title, "This assertion is designed to fail to test screenshot capture."
