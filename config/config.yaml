@@ -36,3 +36,9 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+
+  # Your total_coffee testing environment
+  total_coffee:
+    base_url: "https://total.coffee/"
+    username: "plimpton8@gmail.com"
+    password: "Zaccheo@99"

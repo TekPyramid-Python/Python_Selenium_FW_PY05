@@ -4,11 +4,12 @@ This class is the foundation of the Page Object Model pattern.
 """
 
 import allure
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from utils.logger import get_logger  # Import our central logger utility
-
+from selenium.webdriver.common.action_chains import ActionChains
 
 class BasePage:
     """
@@ -102,4 +103,59 @@ class BasePage:
             self.logger.info(f"Successfully navigated to: {url}")
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
+            raise
+
+    @allure.step("Wait for element to be present: {locator}")
+    def wait_for_element(self, locator, timeout=20):
+        """
+        Wait for an element to be present in the DOM.
+        """
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.presence_of_element_located(locator)
+            )
+            self.logger.info(f"Element found: {locator}")
+            return element
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element was not present within {timeout}s: {locator}")
+            raise
+
+    @allure.step("Scroll the page till the element: {locator}")
+    def scroll_to_element(self, locator):
+        """
+        Scrolls the page until the specified element is in the viewport.
+        Returns the element after scrolling.
+        """
+        try:
+            element = self.wait_for_element(locator)
+
+            # Scroll the element into view
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",
+                element
+            )
+
+            self.logger.info(f"Successfully scrolled to element: {locator}")
+            return element  # Return the element so the assertion passes
+        except Exception as e:
+            self.logger.error(f"Failed to scroll to element {locator}. Error: {e}")
+            raise
+
+    @allure.step("Hovering Element: {locator}")
+    def hover_to_element(self, locator):
+        """
+        Hovers mouse over an element after waiting for it to be visible and clickable.
+        Fails the test immediately if the element is not found within the timeout.
+        """
+
+        try:
+            element = self.wait.until(EC.visibility_of_element_located(locator))
+            element = self.wait.until(EC.element_to_be_clickable(locator))
+
+            actions = ActionChains(self.driver)
+            actions.move_to_element(element).perform()
+
+            self.logger.info(f"Successfully hovered over element: {locator}")
+        except TimeoutException:
+            self.logger.error(f"Timeout: Element not hoverable for {locator}")
             raise
