@@ -1,7 +1,7 @@
 # tests/test_report_statuses.py
 import pytest
 import allure
-from tests.base_test import BaseTest  # Make sure this import path is correct for your structure
+from ..tests.base_test import BaseTest  # Make sure this import path is correct for your structure
 
 
 @allure.epic("Framework Verification")
