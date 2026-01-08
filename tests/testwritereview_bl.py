@@ -14,7 +14,7 @@ class TestWriteReview(BaseTest):
 
     def test_write_review(self):
         signin = Signup_Page(self.driver)
-        env = Environment()
+        env = Environment("newapp")
         base_url = env.get_base_url()
 
         with allure.step("Navigate and sign in in child window"):

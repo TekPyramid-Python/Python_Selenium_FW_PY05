@@ -25,10 +25,7 @@ environments:
     username: "dev_user"
     password: "dev_pass"
 
-  newapp:
-    base_url: "https://brownliving.in/"
-    username: "N/A" # not required for this website
-    password: "N/A"
+
   # Your actual staging environment
   staging:
     base_url: "https://staging.example.com"
@@ -40,3 +37,21 @@ environments:
     base_url: "https://example.com"
     username: "prod_user"
     password: "prod_pass"
+
+
+  digitgo:
+    base_url: "https://www.godigit.com/"
+    username: ""
+    password: ""
+
+  #my website url
+  test:
+    base_url: "https://vanalaya.com/"
+    username: "abcd@gmail.com"
+#    password: "87654321"
+  newapp:
+     base_url: "https://brownliving.in/"
+     username: "N/A" # not required for this website
+     password: "N/A"
+
+

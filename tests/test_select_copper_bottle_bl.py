@@ -18,7 +18,7 @@ class TestSelectCopperBottle(BaseTest):
 
     def test_add_product_to_cart(self):
 
-        env = Environment()
+        env = Environment("newapp")
         base_url = env.get_base_url()
         acct = Accounts(self.driver)
         signin = Signup_Page(self.driver)

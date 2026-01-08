@@ -17,7 +17,7 @@ class Test_Search_Product(BaseTest):
 
     def test_search_product(self):
         signin = Signup_Page(self.driver)
-        env = Environment()
+        env = Environment("newapp")
         base_url = env.get_base_url()
         acct = Accounts(self.driver)
         prod=All_Products(self.driver)
