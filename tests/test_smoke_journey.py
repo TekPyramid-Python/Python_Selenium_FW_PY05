@@ -2,14 +2,14 @@
 
 import pytest
 import allure
-from tests.base_test import BaseTest
-from pages.login_page import LoginPage
-from pages.inventory_page import InventoryPage
-from pages.himadri_cart_page import CartPage
-from pages.checkout_step_one_page import CheckoutStepOnePage
-from pages.checkout_step_two_page import CheckoutStepTwoPage
-from pages.checkout_complete_page import CheckoutCompletePage
-from config.environment import Environment
+from ..tests.base_test import BaseTest
+from ..pages.login_page import LoginPage
+from ..pages.inventory_page import InventoryPage
+from ..pages.cart_page import CartPage
+from ..pages.checkout_step_one_page import CheckoutStepOnePage
+from ..pages.checkout_step_two_page import CheckoutStepTwoPage
+from ..pages.checkout_complete_page import CheckoutCompletePage
+from ..config.environment import Environment
 
 
 @allure.epic("End-to-End Tests")

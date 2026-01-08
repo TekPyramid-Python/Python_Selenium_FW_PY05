@@ -2,7 +2,7 @@
 from asyncio import timeout
 
 from selenium.webdriver.common.by import By
-from pages.base_page import BasePage # Import the BasePage
+from ..pages.base_page import BasePage # Import the BasePage
 
 class LoginPage(BasePage): # Make LoginPage inherit from BasePage
     """
