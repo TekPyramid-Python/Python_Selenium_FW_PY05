@@ -85,3 +85,14 @@ def pytest_runtest_makereport(item, call):
             report.extra.append(pytest_html.extras.image(screenshot, 'Screenshot on Failure'))
 
     setattr(item, "rep_" + report.when, report)
+
+    import pytest
+    from selenium import webdriver
+
+    @pytest.fixture
+    def browser():
+        driver = webdriver.Chrome()
+        driver.get("https://www.ellementry.com/")
+        driver.maximize_window()
+        yield driver
+        driver.quit()

@@ -8,6 +8,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from utils.logger import get_logger  # Import our central logger utility
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import Select
+
 
 
 class BasePage:
@@ -25,6 +29,8 @@ class BasePage:
         self.wait = WebDriverWait(driver, 20)
         # Use our central logger, already configured in conftest.py
         self.logger = get_logger()
+
+
 
     @allure.step("Clicking Element: {locator}")
     def click(self, locator):
@@ -103,3 +109,24 @@ class BasePage:
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
             raise
+
+    @allure.step("Scroll page to element")
+    def scroll_to_element(self, locator):
+        element = self.driver.find_element(*locator)
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView(true);",
+            element
+        )
+
+    # @allure.step("Hover on element")
+    def hover(self, locator):
+        element = self.driver.find_element(*locator)
+        ActionChains(self.driver).move_to_element(element).perform()
+
+    @allure.step("Pick option from dropdown")
+    def select_by_text(self, locator, text):
+        dropdown_element = self.driver.find_element(*locator)
+        Select(dropdown_element).select_by_visible_text(text)
+
+
+
