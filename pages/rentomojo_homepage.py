@@ -2,7 +2,6 @@ from .furniture_page import Furniture_Module
 from ..pages.base_page import BasePage
 from time import sleep
 from ..config.environment import Environment
-import allure
 
 class RentomojoHomepage(BasePage):
     PROD_LOCATION = ("css selector", 'div.rm-listicle__block div div div:nth-child(1) a')
@@ -23,8 +22,12 @@ class RentomojoHomepage(BasePage):
     CONFIRM_DELETE_PRODUCT = ('css selector', 'div.rm-dialog__btns>ul>li>button.rm-btn__red')
 
 
-    def addingproduct_tocart(self):
+    def get_expected_product_name(self):
         expected_product_name=self.get_text(self.PROD_LOCATION_TEXT)
+        return expected_product_name
+
+    def get_actual_product_name(self):
+        expected_prod_name=self.get_expected_product_name()
         self.selecting_product(self.PROD_LOCATION)
         self.switch_to_window(1)
         sleep(5)
@@ -45,14 +48,13 @@ class RentomojoHomepage(BasePage):
             self.logger.info("Dialog box is only for AC Products")
         self.click(self.VIEW_CART_BTN)
         sleep(15)
-        actual_product_name=self.searching_for_product_cart(expected_product_name)
-        assert expected_product_name== actual_product_name, 'product not added to cart'
-        self.logger.info(f'{expected_product_name} is present in cart')
+        actual_product_name=self.searching_for_product_cart(expected_prod_name)
+        return actual_product_name
 
 
     def clearing_cart(self):
         furniture = Furniture_Module(self.driver)
-        furniture.navigate_to_website()
+        furniture.navigate_to(Environment.get_base_url(self.driver))
         self.click(self.GO_TO_CART_BTN)
         for i in self.driver.find_elements(*self.CART_PRODUCT_DELETE_BTN):
             self.click(i)
@@ -61,7 +63,7 @@ class RentomojoHomepage(BasePage):
 
     def searching_for_product_cart(self,product_name):
         furniture = Furniture_Module(self.driver)
-        furniture.navigate_to_website()
+        furniture.navigate_to(Environment.get_base_url(self.driver))
         self.logger.info('searching for product to compare')
         self.click(self.GO_TO_CART_BTN)
         for i in self.driver.find_elements(*self.CART_PRODUCT_NAMES):

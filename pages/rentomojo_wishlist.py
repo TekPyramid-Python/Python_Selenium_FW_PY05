@@ -1,6 +1,5 @@
 from ..pages.base_page import BasePage
 import allure
-from ..config.environment import Environment
 from time import sleep
 
 class Rentomojo_Wishlist(BasePage):

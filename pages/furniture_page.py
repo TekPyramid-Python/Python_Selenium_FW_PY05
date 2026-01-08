@@ -1,8 +1,5 @@
 from ..pages.base_page import BasePage
-import allure
-from ..config.environment import Environment
-from time import sleep
-from selenium.webdriver.support.ui import WebDriverWait
+
 
 class Furniture_Module(BasePage):
     #MODULE
@@ -24,43 +21,34 @@ class Furniture_Module(BasePage):
     DELIVERY_PINCODE_BTN = ("css selector", "button.rm-pincode__apply-btn")
 
 
-    def navigate_to_website(self):
-        env = Environment()
-        base_url = env.get_base_url()
-        self.navigate_to(base_url)
-        self.wait_till_pageload()
-        sleep(3)
+
+
     def adding_furniture_product(self):
         self.click(self.FURNITURE_MODULE_BTN)
-        self.wait_till_pageload()
         self.click(self.ROOM_TYPE_BEDROOM_BTN)
-        self.wait_till_pageload()
         self.scroll_to_element(self.BEDROOM_PRODUCT)
         self.click(self.BEDROOM_PRODUCT)
         product_name=self.get_text(self.PRODUCT_NAME)
         self.logger.info(product_name)
-        self.wait_till_pageload()
         self.switch_to_window(1)
         self.click(self.CART_BTN)
-        self.wait_till_pageload()
         try:
             self.send_keys(self.DELIVERY_PINCODE_BOX,"515005")
             self.click(self.DELIVERY_PINCODE_BTN)
         except Exception as e:
             self.logger.info("Delivery pincode not needed")
-        sleep(5)
-        self.navigate_to_website()
+        self.navigate_to('https://www.rentomojo.com/bangalore')
         actual_product_name=self.searching_for_product_cart(product_name)
         assert product_name==actual_product_name,'product not added to cart'
         self.logger.info(f'{product_name} is present in cart')
 
 
     def clearing_cart(self):
-        self.navigate_to_website()
-        sleep(5)
+        self.navigate_to('https://www.rentomojo.com/bangalore')
         self.click(self.GO_TO_CART_BTN)
         for i in self.driver.find_elements(*self.CART_PRODUCT_DELETE_BTN):
             self.click(i)
+            self.wait_till_pageload()
             self.click(self.CONFIRM_DELETE_PRODUCT)
 
 

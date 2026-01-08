@@ -11,7 +11,7 @@ class TestRentomojoStores(BaseTest):
     def test_nearest_rentomojo_stores(self):
         with allure.step("Navigating to website"):
             furniture = Furniture_Module(self.driver)
-            furniture.navigate_to_website()
+            furniture.navigate_to('https://www.rentomojo.com/bangalore')
         stores=RentomojoStoresPage(self.driver)
         with allure.step("Validating whether we are redirecting to correct sore page"):
             store_name=stores.rentomojo_get_expected_name()

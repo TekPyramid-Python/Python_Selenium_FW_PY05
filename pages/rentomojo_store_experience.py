@@ -1,8 +1,4 @@
 from ..pages.base_page import BasePage
-from ..config.environment import Environment
-import allure
-from time import sleep
-
 
 class RentomojoStoresPage(BasePage):
 

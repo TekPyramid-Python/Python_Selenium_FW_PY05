@@ -19,8 +19,9 @@ def rentomojo_login(request):
     driver=request.cls.driver
     base=BasePage(driver)
     with allure.step("Navigating to website"):
-            furniture = Furniture_Module(driver)
-            furniture.navigate_to_website()
+            env = Environment('rent')
+            base_url = env.get_base_url()
+            base.navigate_to(base_url)
     with allure.step("Navigate and perform a successful login"):
         try:
             base.click(LOGIN_BUTTON)

@@ -1,10 +1,7 @@
 from selenium.webdriver.common.keys import Keys
-
-from .furniture_page import Furniture_Module
 from ..pages.base_page import BasePage
 from time import sleep
 import allure
-from ..config.environment import Environment
 
 class LocationHandling(BasePage):
     PROD_LOCATION = ("css selector", 'div.rm-listicle__block div div:nth-child(1)')

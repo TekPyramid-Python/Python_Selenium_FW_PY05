@@ -21,9 +21,8 @@ class Environment:
         """
         self.env_name = env_name or os.getenv('ENV', 'dev')
         self.config = self._load_config()
-        # self.current_env = self.config['environments'][self.env_name]
-        self.current_env = self.config['environments']['rent']
-    
+        self.current_env = self.config['environments'][self.env_name]
+
     def _load_config(self):
         """
         Load configuration from YAML file.

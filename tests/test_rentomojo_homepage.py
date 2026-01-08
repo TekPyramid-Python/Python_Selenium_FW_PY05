@@ -8,11 +8,15 @@ import pytest
 class TestHomepage(BaseTest):
     @pytest.mark.rentomojo
     def test_homepage(self):
-        with allure.step("Navigating to website"):
-            furniture = Furniture_Module(self.driver)
-            furniture.navigate_to_website()
+        furniture = Furniture_Module(self.driver)
         homepage = RentomojoHomepage(self.driver)
-        with allure.step("adding product from homepage to cart"):
-            homepage.addingproduct_tocart()
+        with allure.step("Navigating to website"):
+            homepage.navigate_to('https://www.rentomojo.com/bangalore')
+        with allure.step("clearing cart"):
+            homepage.clearing_cart()
+            homepage.navigate_to('https://www.rentomojo.com/bangalore')
+        with allure.step("validating whether the right product added from homepage to cart."):
+            assert homepage.get_expected_product_name() == homepage.get_actual_product_name(), 'product not added to cart'
+            self.logger.info('product successfully added to cart.')
         with allure.step("clearing cart"):
             homepage.clearing_cart()
