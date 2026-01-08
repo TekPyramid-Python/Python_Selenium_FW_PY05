@@ -21,9 +21,10 @@ class LocationHandling(BasePage):
 
 
     def adding_product(self):
+
         self.selecting_product(self.PROD_LOCATION)
         self.switch_to_window(1)
-        sleep(15)
+        self.scroll_to_element(self.CART_BTN)
         self.click(self.CART_BTN)
         try:
             self.send_keys(self.DELIVERY_PINCODE_BOX, "515005")
@@ -37,8 +38,8 @@ class LocationHandling(BasePage):
         except Exception as e:
             self.logger.info("Dialog box is only for AC Products")
         self.click(self.VIEW_CART_BTN)
-        sleep(15) #to check with eyes whether the product is added or not
-        self.driver.close()
+
+
 
     def changing_location(self,location_='Hyderabad'):
         with allure.step("changing location from default city to desired city"):

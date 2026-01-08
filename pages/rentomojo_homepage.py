@@ -1,7 +1,5 @@
-from .furniture_page import Furniture_Module
 from ..pages.base_page import BasePage
 from time import sleep
-from ..config.environment import Environment
 
 class RentomojoHomepage(BasePage):
     PROD_LOCATION = ("css selector", 'div.rm-listicle__block div div div:nth-child(1) a')
@@ -20,7 +18,10 @@ class RentomojoHomepage(BasePage):
     CART_PRODUCT_DELETE_BTN = ('css selector',
                                'div.rm-products__container>div>div.rm-product__item>div>div>div>div.rm-product__content>h2>img')
     CONFIRM_DELETE_PRODUCT = ('css selector', 'div.rm-dialog__btns>ul>li>button.rm-btn__red')
+    HOME_BUTTON=('css selector','div.navbar-header a')
 
+    def redirect_to_website(self):
+        self.click(self.HOME_BUTTON)
 
     def get_expected_product_name(self):
         expected_product_name=self.get_text(self.PROD_LOCATION_TEXT)
@@ -53,8 +54,7 @@ class RentomojoHomepage(BasePage):
 
 
     def clearing_cart(self):
-        furniture = Furniture_Module(self.driver)
-        furniture.navigate_to(Environment.get_base_url(self.driver))
+        self.redirect_to_website()
         self.click(self.GO_TO_CART_BTN)
         for i in self.driver.find_elements(*self.CART_PRODUCT_DELETE_BTN):
             self.click(i)
@@ -62,8 +62,7 @@ class RentomojoHomepage(BasePage):
 
 
     def searching_for_product_cart(self,product_name):
-        furniture = Furniture_Module(self.driver)
-        furniture.navigate_to(Environment.get_base_url(self.driver))
+        self.redirect_to_website()
         self.logger.info('searching for product to compare')
         self.click(self.GO_TO_CART_BTN)
         for i in self.driver.find_elements(*self.CART_PRODUCT_NAMES):

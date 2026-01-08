@@ -3,9 +3,9 @@ from time import sleep
 import allure
 import pytest
 
-from .furniture_page import Furniture_Module
 from ..config.environment import Environment
 from ..pages.base_page import BasePage
+
 
 LOGIN_BUTTON = ("css selector", "button.rm-login__btn")
 PHONE_FIELD = ("css selector", "div.rm-auth__user-input>div>input")
@@ -14,7 +14,7 @@ PROFILE_ICON = ("css selector", "a.rm-user__fullName")
 LOGOUT_BTN = ("css selector", "ul.nav-arrow.rm-user__loggedIn>li:nth-child(4)")
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def rentomojo_login(request):
     driver=request.cls.driver
     base=BasePage(driver)
@@ -30,7 +30,6 @@ def rentomojo_login(request):
             base.wait_till_pageload()
             sleep(15)
             base.click(CONTINUE_BTN)
-
         except Exception as e:
             base.logger.info("userr already logined")
 

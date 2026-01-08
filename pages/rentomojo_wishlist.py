@@ -38,8 +38,8 @@ class Rentomojo_Wishlist(BasePage):
             return actual_prodname
 
     def clear_wishlist(self):
+            self.wait_till_pageload()
             self.hover_over_element(self.PROFILE_ICON)
-            sleep(5)
             self.click(self.WISHLIST_OPTION)
             self.wait_till_pageload()
             wishlist_products=self.driver.find_elements(*self.CLEAR_WISHLIST_BTN)

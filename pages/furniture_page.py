@@ -1,3 +1,4 @@
+from ..pages.rentomojo_homepage import RentomojoHomepage
 from ..pages.base_page import BasePage
 
 
@@ -37,14 +38,16 @@ class Furniture_Module(BasePage):
             self.click(self.DELIVERY_PINCODE_BTN)
         except Exception as e:
             self.logger.info("Delivery pincode not needed")
-        self.navigate_to('https://www.rentomojo.com/bangalore')
+        homepage = RentomojoHomepage(self.driver)
+        homepage.redirect_to_website()
         actual_product_name=self.searching_for_product_cart(product_name)
         assert product_name==actual_product_name,'product not added to cart'
         self.logger.info(f'{product_name} is present in cart')
 
 
     def clearing_cart(self):
-        self.navigate_to('https://www.rentomojo.com/bangalore')
+        homepage = RentomojoHomepage(self.driver)
+        homepage.redirect_to_website()
         self.click(self.GO_TO_CART_BTN)
         for i in self.driver.find_elements(*self.CART_PRODUCT_DELETE_BTN):
             self.click(i)

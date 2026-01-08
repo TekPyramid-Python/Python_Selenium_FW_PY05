@@ -1,13 +1,15 @@
 import allure
-
 from ..pages.furniture_page import Furniture_Module
 from ..tests.base_test import BaseTest
 from ..pages.rentomojo_homepage import RentomojoHomepage
 import pytest
+from ..tests.base_test import BaseTest  # Make sure this import path is correct for your structure
+from ..tests.rentomojo_login_otp import rentomojo_login
+
 
 class TestHomepage(BaseTest):
     @pytest.mark.rentomojo
-    def test_homepage(self):
+    def test_homepage(self,rentomojo_login):
         furniture = Furniture_Module(self.driver)
         homepage = RentomojoHomepage(self.driver)
         with allure.step("Navigating to website"):
