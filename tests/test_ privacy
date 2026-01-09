@@ -1,0 +1,24 @@
+import pytest
+from pages.home_page import HomePage
+from pages.privacy_policy_page import PrivacyPolicyPage
+from selenium.webdriver.common.by import By
+
+@pytest.mark.usefixtures("driver")
+class TestPrivacyPolicyPage:
+
+    def test_privacy_policy_page_loads(self, driver):
+        home = HomePage(driver)
+        privacy = PrivacyPolicyPage(driver)
+
+
+        home.open_url("https://yourwebsite.com")
+        assert home.is_home_page_loaded(), "Homepage did not load"
+
+
+        home.click_element((By.LINK_TEXT, "Privacy Policy"))  # Update locator if in footer/header
+        assert privacy.is_page_loaded(), "Privacy Policy page did not load"
+
+
+        content_text = privacy.get_content_text()
+        print(f"Privacy Policy content: {content_text[:100]}...")
+        assert len(content_text) > 0, "Privacy Policy page content is empty"

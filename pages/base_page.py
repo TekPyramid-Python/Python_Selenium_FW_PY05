@@ -15,6 +15,11 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 from utils.logger import get_logger
 from selenium.webdriver.support.ui import Select
+from utils.logger import get_logger  # Import our central logger utility
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+
 
 
 class BasePage:
@@ -47,6 +52,18 @@ class BasePage:
             self.logger.error(f"Timeout: Element not clickable: {locator}")
             # Re-raise the exception to fail the test and trigger failure evidence capture
             raise
+
+    @allure.step("Force clicking Element: {locator}")
+    def force_click(self, locator):
+            """
+            JS click to bypass overlays / sticky headers
+            """
+            element = self.wait.until(EC.presence_of_element_located(locator))
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block:'center'});", element
+            )
+            self.driver.execute_script("arguments[0].click();", element)
+            self.logger.info(f"Force clicked element: {locator}")
 
     @allure.step("Entering text '{text}' into Element: {locator}")
     def send_keys(self, locator, text, clear_first=True):
@@ -350,3 +367,99 @@ class BasePage:
         except TimeoutException:
             self.logger.error(f"Failed to select '{value}' from custom dropdown")
             raise
+    @allure.step("Navigating to URL: {url}")
+    def is_element_visible(self, locator):
+        try:
+            self.wait.until(EC.visibility_of_element_located(locator))
+            return True
+        except:
+            return False
+
+    @allure.step("Checking if Element is present in DOM: {locator}")
+    def is_present(self, locator, timeout=15):
+            """
+            Wait until element is present in the DOM (does not need to be visible).
+            Returns True if element is present, False if timeout occurs.
+            """
+            try:
+                WebDriverWait(self.driver, timeout).until(
+                    EC.presence_of_element_located(locator)
+                )
+                self.logger.info(f"Element is present in DOM: {locator}")
+                return True
+            except TimeoutException:
+                self.logger.info(f"Element not present in DOM within {timeout}s: {locator}")
+                return False
+
+    @allure.step("Opening URL: {url}")
+    def open_url(self, url):
+        self.driver.get(url)
+
+    @allure.step("Finding element: {locator}")
+    def find(self, locator):
+        try:
+            return self.wait.until(EC.visibility_of_element_located(locator))
+        except TimeoutException:
+            allure.attach(
+                self.driver.get_screenshot_as_png(),
+                name="Element_Not_Found",
+                attachment_type=allure.attachment_type.PNG
+            )
+            raise
+    @allure.step("Clicking element: {locator}")
+    def click(self, locator):
+        self.wait.until(EC.element_to_be_clickable(locator)).click()
+
+    @allure.step("Typing text '{text}' into element: {locator}")
+    def type(self, locator, text):
+        element = self.find(locator)
+        element.clear()
+        element.send_keys(text)
+
+    @allure.step("Getting text from element: {locator}")
+    def get_text(self, locator):
+        return self.find(locator).text
+
+    @allure.step("Checking if element is displayed: {locator}")
+    def is_displayed(self, locator):
+        try:
+            return self.find(locator).is_displayed()
+        except:
+            return False
+
+    @allure.step("Selecting '{text}' from dropdown: {locator}")
+    def select_by_visible_text(self, locator, text):
+            dropdown = Select(self.find(locator))
+            dropdown.select_by_visible_text(text)
+
+    @allure.step("Selecting value '{value}' from dropdown: {locator}")
+    def select_by_value(self, locator, value):
+            dropdown = Select(self.find(locator))
+            dropdown.select_by_value(value)
+
+    @allure.step("Selecting index '{index}' from dropdown: {locator}")
+    def select_by_index(self, locator, index):
+            dropdown = Select(self.find(locator))
+            dropdown.select_by_index(index)
+
+    @allure.step("Getting selected option from dropdown: {locator}")
+    def get_selected_option(self, locator):
+            dropdown = Select(self.find(locator))
+            return dropdown.first_selected_option.text
+
+    @allure.step("Selecting '{option_text}' from custom dropdown")
+    def select_custom_dropdown(self, dropdown_locator, option_locator):
+        self.click(dropdown_locator)
+        self.click(option_locator)
+
+
+
+    def scroll_to_element(self, locator):
+            element = self.driver.find_element(*locator)
+            self.driver.execute_script(
+          "arguments[0].scrollIntoView({block: 'center'});", element)
+
+
+
+
+

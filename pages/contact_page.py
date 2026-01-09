@@ -28,26 +28,8 @@ class ContactPage(BasePage):
         self.js_send_keys(self.ENTER_EMAIL, email)
         self.logger.info(f"Entered the Email ID:{email}")
 
-        self.js_send_keys(self.ENTER_PHONE, phone)
-        self.logger.info(f"Entered the Email ID:{phone}")
-
-        self.js_send_keys(self.ENTER_DEPARTMENT, department)
-        self.logger.info(f"Entered the Department:{department}")
-
-        self.js_send_keys(self.ENTER_QUERIES, queries)
-        self.logger.info(f"Entered the Email Queries:{queries}")
-
-    def scroll_to_submit(self):
-        self.scroll_to_element(self.SCROLL_TO_SUBMIT)
-        self.logger.info("Scroll to bottom of the Submit button")
-
-    def click_submit(self):
-        self.click(self.CLICK_SUBMIT)
-        self.logger.info("Clicked the Submit button.")
 
 
-    def is_query_successful(self):
-        return self.is_visible(self.CONTACT_TITLE, timeout=5)
 
 
 

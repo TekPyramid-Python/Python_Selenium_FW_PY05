@@ -86,6 +86,10 @@ environments:
     base_url: "https://himadrigardens.com/"
     email: "arshalokanathan@gmail.com"
     password: "JaQ56y5KbLxwY@t"
+  test:
+    base_url: "https://www.swasthyawarriors.com"
+    username: "test_user"
+    password: "test_pass"
 
   home:
     base_url: "https://www.ellementry.com/"
