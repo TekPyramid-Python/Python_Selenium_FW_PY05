@@ -22,7 +22,7 @@ class Environment:
         self.env_name = env_name or os.getenv('ENV', 'total_coffee')
         self.config = self._load_config()
         self.current_env = self.config['environments'][self.env_name]
-    
+
     def _load_config(self):
         """
         Load configuration from YAML file.
@@ -57,4 +57,8 @@ class Environment:
     
     def get_logging_config(self):
         """Get logging configuration."""
-        return self.config['logging'] 
+        return self.config['logging']
+
+    def get_email(self):
+        """Get username for current environment."""
+        return self.current_env['email']
