@@ -19,7 +19,8 @@ class Environment:
         Args:
             env_name: Environment name (dev, staging, prod). If None, uses ENV environment variable or defaults to 'dev'
         """
-        self.env_name = env_name or os.getenv('ENV', 'digitgo')
+        self.env_name = env_name or os.getenv('ENV', 'total_coffee')
+        self.env_name = env_name or os.getenv('ENV', 'arka')
         self.config = self._load_config()
         self.current_env = self.config['environments'][self.env_name]
     
@@ -57,4 +58,8 @@ class Environment:
     
     def get_logging_config(self):
         """Get logging configuration."""
-        return self.config['logging'] 
+        return self.config['logging']
+
+    def get_email(self):
+        """Get username for current environment."""
+        return self.current_env['email']

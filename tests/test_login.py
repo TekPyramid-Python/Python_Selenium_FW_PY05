@@ -2,14 +2,15 @@
 import allure
 import pytest
 
-from config.environment import Environment
-from pages.login_page import LoginPage
-from tests.base_test import BaseTest
+from ..config.environment import Environment
+from ..pages.login_page import LoginPage
+from ..tests.base_test import BaseTest
 
 
 @allure.feature("Authentication")
 @allure.story("User Login")
 class TestLogin(BaseTest):
+
     """
     Test class for login functionality against saucedemo.com.
     """

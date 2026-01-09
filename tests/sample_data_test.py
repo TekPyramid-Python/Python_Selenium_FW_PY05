@@ -3,7 +3,7 @@ import pytest
 import allure
 
 # Import the helper functions from your utility file
-from utils.data_providers import get_all_test_data, get_filtered_test_data
+from ..utils.data_providers import get_all_test_data, get_filtered_test_data
 
 # tests/sample_data_test.py (The Consumer / Your Test)
 # Purpose: This is an example of a clean test file that uses the library. It doesn't know how the data is read; it just asks for it and runs the tests. You will use this pattern to build your main test_employeelogin and other test files.
