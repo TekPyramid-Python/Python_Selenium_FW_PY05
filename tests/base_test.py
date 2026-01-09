@@ -79,6 +79,7 @@ class BaseTest:
         Sets up Chrome WebDriver using your comprehensive list of options.
         """
         options = ChromeOptions()
+        options.page_load_strategy = 'eager'
 
         # Use the PROJECT_ROOT constant defined at the top of the file
         profile_path = PROJECT_ROOT / "automation_chrome_profile"
@@ -89,6 +90,7 @@ class BaseTest:
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         prefs = {
             "credentials_enable_service": False,
+            "profile.default_content_setting_values.notifications": 2,
             "profile.password_manager_enabled": False,
             "profile.password_manager_leak_detection": False
         }
