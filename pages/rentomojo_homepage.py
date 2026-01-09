@@ -29,7 +29,8 @@ class RentomojoHomepage(BasePage):
 
     def get_actual_product_name(self):
         expected_prod_name=self.get_expected_product_name()
-        self.selecting_product(self.PROD_LOCATION)
+        self.scroll_to_element(self.PROD_LOCATION)
+        self.click(self.PROD_LOCATION)
         self.switch_to_window(1)
         sleep(5)
         self.click(self.CART_BTN)

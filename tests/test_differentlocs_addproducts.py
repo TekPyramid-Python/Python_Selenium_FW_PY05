@@ -18,3 +18,6 @@ class TestAddProducts(BaseTest):
         with allure.step("adding product to cart from particular city"):
             location.changing_location()
             location.adding_product()
+        with allure.step("changing location from default city to desired city"):
+            assert 'Hyderabad' == location.changing_location()
+            self.logger.info("location successfully changed")
