@@ -5,9 +5,7 @@ This class is the foundation of the Page Object Model pattern.
 import time
 
 import allure
-from selenium.webdriver import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import Select
 from utils.logger import get_logger  # Import our central logger utility
@@ -274,7 +272,7 @@ class BasePage:
             )
             raise
 
-    @allure.step("Select value '{value}' from custom dropdown")
+    @allure.step("Dropdown select")
     def select_from_custom_dropdown(self, dropdown_locator, search_input_locator, value):
         try:
             self.click(dropdown_locator)
