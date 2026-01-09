@@ -38,6 +38,17 @@ environments:
     username: "prod_user"
     password: "prod_pass"
 
+  #Rentomojo Environment
+  rent:
+    base_url: "https://www.rentomojo.com/bangalore"
+    username: "N/A" # Not needed for this site
+    password: "N/A"
+
+  modi:
+    base_url: "https://modiretail.com/"
+    username: "ashagudisagar30@gmail.com"
+    password: "8197375829"
+
 
   digitgo:
     base_url: "https://www.godigit.com/"
@@ -79,3 +90,8 @@ environments:
     base_url: "https://www.swasthyawarriors.com"
     username: "test_user"
     password: "test_pass"
+
+  home:
+    base_url: "https://www.ellementry.com/"
+    username: "prod_user"
+    password: "prod_pass"

@@ -33,7 +33,7 @@ class LoginPage(BasePage): # Make LoginPage inherit from BasePage
         # Note: We don't need to return True/False. If any step fails, an exception will be raised.
 
     def is_login_successful(self):
-        """
+        """a
         Checks if login was successful by looking for an element on the inventory page.
         Uses the is_visible method inherited from BasePage.
         """
