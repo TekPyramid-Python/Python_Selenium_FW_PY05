@@ -13,8 +13,8 @@ import time
 from pathlib import Path
 
 
-from ..utils.logger import get_logger
-from ..config.environment import Environment
+from utils.logger import get_logger
+from config.environment import Environment
 
 
 # --- NEW: Define Project Root as a Global Constant ---
