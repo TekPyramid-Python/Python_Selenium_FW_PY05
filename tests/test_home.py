@@ -4,14 +4,16 @@ from pages.elle_home_page import HomePage
 from pages.home_page import HomePage
 from tests.base_test import BaseTest
 
+
 @allure.feature("Home Page")
-@allure.story("Verify home page load")
+@allure.story("Verify Home page loads correctly")
 class TestHomePage(BaseTest):
+
     @pytest.mark.smoke
-    @allure.title("verify home page loads")
+    @allure.title("Verify Home page loads and logo is visible")
     def test_home_page_loads(self):
 
-        home_page=HomePage(self.driver)
+        home_page = HomePage(self.driver)
 
         with allure.step("Open ellementry website"):
             home_page.navigate_to("https://www.ellementry.com/")

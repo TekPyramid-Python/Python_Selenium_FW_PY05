@@ -1,9 +1,5 @@
 # tests/conftest.py
-from pages.dental_home_page import HomePage
-from pages.dental_login_page import LoginPage
-from pages.dental_kart_profile import ProfilePage
 
-import allure
 import pytest
 import logging
 import colorlog
@@ -12,7 +8,7 @@ import os
 import time
 from pathlib import Path
 import pytest_html  # <-- The required import
-# from ..config.environment import Environment
+from config.environment import Environment
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -89,17 +85,3 @@ def pytest_runtest_makereport(item, call):
             report.extra.append(pytest_html.extras.image(screenshot, 'Screenshot on Failure'))
 
     setattr(item, "rep_" + report.when, report)
-
-<<<<<<< HEAD
-    import pytest
-    from selenium import webdriver
-
-    @pytest.fixture
-    def browser():
-        driver = webdriver.Chrome()
-        driver.get("https://www.ellementry.com/")
-        driver.maximize_window()
-        yield driver
-        driver.quit()
-=======
->>>>>>> 3de1b3aec895842789408d8ef7178d2750b0989e

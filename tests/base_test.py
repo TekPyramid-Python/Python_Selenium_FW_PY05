@@ -12,10 +12,8 @@ import logging
 import time
 from pathlib import Path
 
-
-from ..utils.logger import get_logger
-from ..config.environment import Environment
-
+from utils.logger import get_logger
+from config.environment import Environment
 
 # --- NEW: Define Project Root as a Global Constant ---
 # This is a robust way to get your project's root directory.
@@ -48,7 +46,6 @@ class BaseTest:
             self.driver.maximize_window()
             self.driver.implicitly_wait(self.env.config['browser']['implicit_wait'])
             self.driver.set_page_load_timeout(self.env.config['browser']['page_load_timeout'])
-
 
         yield
 

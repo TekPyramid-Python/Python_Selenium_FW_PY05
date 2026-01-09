@@ -5,11 +5,6 @@ import pytest
 from ..config.environment import Environment
 from ..pages.login_page import LoginPage
 from ..tests.base_test import BaseTest
-from config.environment import Environment
-from pages.contact_us_page import ContactUsPage
-from pages.home_page import HomePage
-from pages.login_page import LoginPage
-from tests.base_test import BaseTest
 
 
 @allure.feature("Authentication")
@@ -30,25 +25,25 @@ class TestLogin(BaseTest):
         Test Case: Verify successful login using credentials from config.yaml.
         """
         # --- Initialize pages and variables ---
-        contact_page = ContactUsPage(self.driver)
+        login_page = LoginPage(self.driver)
         env = Environment()  # Uses ENV=demo by default if not set
         base_url = env.get_base_url()
         username = env.get_username()
         password = env.get_password()
 
-        with allure.step("Navigate to contact us page"):
-            contact_page.navigate_to(base_url)
+        with allure.step("Navigate to login page"):
+            login_page.navigate_to(base_url)
             # The is_visible method is inherited from BasePage
-            assert contact_page.is_visible(contact_page.FIRST_NAME_INPUT), "contact page did not load properly"
+            assert login_page.is_visible(login_page.USERNAME_INPUT), "Login page did not load properly"
 
         with allure.step("Perform login with valid credentials"):
-            contact_page.FIRST_NAME_INPUT()
+            login_page.login(username, password)
 
-        with allure.step("Verify successful contact_us_page and page title"):
-            assert contact_page.is_contact_us_page_successful(), "contact us page was not successful, inventory page not found."
+        with allure.step("Verify successful login and page title"):
+            assert login_page.is_login_successful(), "Login was not successful, inventory page not found."
 
             expected_title = "Swag Labs"  # This is the correct title for saucedemo
-            actual_title = contact_page.get_title()  # This method is inherited from BasePage
+            actual_title = login_page.get_title()  # This method is inherited from BasePage
             assert expected_title == actual_title, f"Expected title '{expected_title}', but got '{actual_title}'"
 
     @allure.title("Test login failure with invalid credentials")
