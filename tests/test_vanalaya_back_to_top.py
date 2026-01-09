@@ -3,13 +3,13 @@ import allure
 import pytest
 
 from config.environment import Environment
-from pages.back_to_top_pages import BackTopPages
+from pages.vanalaya_back_to_top_pages import BackTopPages
 from tests.base_test import BaseTest
 
 
 # @allure.feature("Authentication")
 # @allure.story("User Login")
-class TestBackTop(BaseTest):
+class TestVanalayaBackTop(BaseTest):
     """
     Test class for login functionality against saucedemo.com.
     """

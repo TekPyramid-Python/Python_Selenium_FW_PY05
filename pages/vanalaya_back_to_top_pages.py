@@ -1,7 +1,8 @@
 from selenium.webdriver.common.by import By
-from pages.base_page import BasePage
 
-class BackTopPages(BasePage):
+from pages.vanalaya_methods_page import VanalayaMethods
+
+class BackTopPages(VanalayaMethods):
     BACK_TO_TOP_BUTTON = (By.ID,'footer-btn-scroll-top')
     LOGO = (By.CSS_SELECTOR,'div.description.rte.lh-sm')
     BLOG_BUTTON = (By.XPATH, '(//a[contains(text(),"Blog")])[1]')
@@ -16,7 +17,7 @@ class BackTopPages(BasePage):
     # def back_top(self):
 
     def scroll_down_home(self):
-        self.scroll_to_element(self.BACK_TO_TOP_BUTTON)
+        self.scroll_to_elements(self.BACK_TO_TOP_BUTTON)
         self.logger.info("Scroll to Back to Top button.")
 
     def click_b2top_button_from_home(self):
@@ -28,7 +29,7 @@ class BackTopPages(BasePage):
         self.logger.info("Clicked Blog Page Back To Top Button")
 
     def scroll_down_from_blog(self):
-        self.scroll_to_element(self.BACK_TO_TOP_BUTTON)
+        self.scroll_to_elements(self.BACK_TO_TOP_BUTTON)
         self.logger.info("Scroll to Back to Top button.")
 
     def click_b2top_button_from_blog(self):
@@ -40,7 +41,7 @@ class BackTopPages(BasePage):
         self.logger.info("Clicked Blog Page Back To Top Button")
 
     def scroll_down_contact(self):
-        self.scroll_to_element(self.BACK_TO_TOP_BUTTON)
+        self.scroll_to_elements(self.BACK_TO_TOP_BUTTON)
         self.logger.info("Scroll to Back to Top button.")
 
     def click_b2top_button_from_contact(self):

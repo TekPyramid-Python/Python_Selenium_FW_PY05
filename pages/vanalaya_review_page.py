@@ -1,11 +1,8 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-
-from pages.base_page import BasePage
-from time import sleep
+from pages.vanalaya_methods_page import VanalayaMethods
 
 
-class ReviewPage(BasePage):
+class ReviewPage(VanalayaMethods):
 
     CLICK_DROP_DOWN = (By.XPATH,'(//div[@class="col-10"]/ul/li)[2]')
     LOGO = (By.CSS_SELECTOR,'div.description.rte.lh-sm')
@@ -50,7 +47,7 @@ class ReviewPage(BasePage):
         self.logger.info('Click product image')
 
     def scroll_towards_element(self):
-        self.scroll_to_element(self.SCROLL_2_REVIEW)
+        self.scroll_to_elements(self.SCROLL_2_REVIEW)
         self.logger.info('Scroll to write a review and click')
 
     def click_to_write_review(self):

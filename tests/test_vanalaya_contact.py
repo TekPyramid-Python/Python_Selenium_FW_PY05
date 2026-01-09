@@ -3,7 +3,7 @@ import allure
 import pytest
 
 from config.environment import Environment
-from pages.contact_page import ContactPage
+from pages.vanalaya_contact_page import ContactPage
 from tests.base_test import BaseTest
 
 

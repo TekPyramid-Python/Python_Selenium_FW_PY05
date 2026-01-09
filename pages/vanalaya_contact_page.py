@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
-from pages.base_page import BasePage
+from pages.vanalaya_methods_page import VanalayaMethods
 
-class ContactPage(BasePage):
+class ContactPage(VanalayaMethods):
     CONTACT_CLICK = (By.CSS_SELECTOR,'div.col-10>ul li.nav-item.dropdown:nth-child(5)')
     ENTER_NAME = (By.XPATH,'//input[@placeholder="Name"]')
     ENTER_EMAIL = (By.XPATH,'//input[@placeholder="Email"]')
@@ -38,7 +38,7 @@ class ContactPage(BasePage):
         self.logger.info(f"Entered the Email Queries:{queries}")
 
     def scroll_to_submit(self):
-        self.scroll_to_element(self.SCROLL_TO_SUBMIT)
+        self.scroll_to_elements(self.SCROLL_TO_SUBMIT)
         self.logger.info("Scroll to bottom of the Submit button")
 
     def click_submit(self):
