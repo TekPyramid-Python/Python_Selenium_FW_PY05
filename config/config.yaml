@@ -3,8 +3,8 @@
 browser:
   default: "chrome"
   headless: false
-  implicit_wait: 10
-  page_load_timeout: 30
+  implicit_wait: 20
+  page_load_timeout: 60
 
 logging:
   level: "INFO"
@@ -24,7 +24,8 @@ environments:
     base_url: "https://dev.example.com"
     username: "dev_user"
     password: "dev_pass"
-  
+
+
   # Your actual staging environment
   staging:
     base_url: "https://staging.example.com"
@@ -101,3 +102,7 @@ environments:
     base_url: "https://app.arka360.com/"
     username: "skhan@arkaenergy.com"
     password: "skhan@arkaenergy.com"
+string:
+    base_url: "https://www.swasthyawarriors.com"
+    username: "test_user"
+    password: "test_pass"
