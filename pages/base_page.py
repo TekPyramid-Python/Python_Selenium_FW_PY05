@@ -234,7 +234,7 @@ class BasePage:
             self.logger.error(f"Timeout: Elements not present in DOM: {locator}")
             raise
 
-    @allure.step("Wait for the presence of locator")
+    @allure.step("Wait for the visibility of locator")
     def wait_for_visibility(self, locator):
         try:
             elements = self.wait.until(
