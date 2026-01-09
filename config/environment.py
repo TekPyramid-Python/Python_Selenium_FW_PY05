@@ -20,9 +20,10 @@ class Environment:
             env_name: Environment name (dev, staging, prod). If None, uses ENV environment variable or defaults to 'dev'
         """
         self.env_name = env_name or os.getenv('ENV', 'total_coffee')
+        self.env_name = env_name or os.getenv('ENV', 'arka')
         self.config = self._load_config()
         self.current_env = self.config['environments'][self.env_name]
-
+    
     def _load_config(self):
         """
         Load configuration from YAML file.
