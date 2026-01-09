@@ -13,8 +13,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.action_chains import ActionChains
+from utils.logger import get_logger
 from selenium.webdriver.support.ui import Select
-from utils.logger import get_logger  # Import our central logger utility
 
 
 class BasePage:
@@ -28,9 +29,7 @@ class BasePage:
         Initialize BasePage with the WebDriver instance and our central logger.
         """
         self.driver = driver
-        # Explicit wait timeout can be configured here
         self.wait = WebDriverWait(driver, 20)
-        # Use our central logger, already configured in conftest.py
         self.logger = get_logger()
 
     @allure.step("Clicking Element: {locator}")
@@ -45,7 +44,6 @@ class BasePage:
             self.logger.info(f"Successfully clicked element: {locator}")
         except TimeoutException:
             self.logger.error(f"Timeout: Element not clickable: {locator}")
-            # Re-raise the exception to fail the test and trigger failure evidence capture
             raise
 
     @allure.step("Entering text '{text}' into Element: {locator}")
@@ -225,6 +223,7 @@ class BasePage:
     def select_by_visible_text(self, drop_down):
         dropdown = Select(self.wait.until(EC.element_to_be_clickable(drop_down)))
         dropdown.select_by_visible_text("500ml Pet Bottle")
+        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
         self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
 
 
