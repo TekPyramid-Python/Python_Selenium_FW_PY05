@@ -14,9 +14,12 @@ class TestHomePage(BaseTest):
 
         with allure.step("Open ellementry website"):
             home_page.navigate_to("https://www.ellementry.com/")
+        with allure.step("Open Swasthya Warriors website"):
+            home_page.navigate_to("https://www.swasthyawarriors.com/")
             assert home_page.is_home_loaded(), "Home page did not load"
 
         with allure.step("verify website logo is displayed"):
+        with allure.step("Verify website logo is displayed"):
             assert home_page.is_logo_visible(), "Home page logo is not visible"
 
         with allure.step("Verify main menu items are visible"):
