@@ -1,25 +1,46 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
 from pages.base_page import BasePage
 
 class BlogPage(BasePage):
-    PAGE_TITLE = (By.XPATH, "//h1[normalize-space()='Blog']")
-    BLOG_IMAGES = (By.XPATH, "//div[contains(@class,'blog')]//img")
-    EVENTS_LINK = (By.XPATH, "//a[contains(text(),'Events')]")
 
-    def is_blog_page_loaded(self):
-        return self.is_visible(self.PAGE_TITLE)
+    BLOG_BUTTON = (By.XPATH,'(//a[contains(text(),"Blog")])[1]')
+    BLOG_IMAGE = (By.CSS_SELECTOR,"div.col-4 img")
+    SCROLL_DOWN = (By.CSS_SELECTOR,'div#footer-copyright div.fs-sm.text-center')
+    ENTER_EMAIL_ID = (By.XPATH,'//div[@id="footer-desktop"]//form')
+    CLICK_SUBMIT = (By.XPATH,'(//button[@aria-label="Subscribe"])[3]')
+    BLOG_PAGE_HEADER = (By.XPATH,'(//nav[@id="navbar-desktop"]/descendant::a)[1]')  # Element on the page after successful login
+    # POP_UP = (By.XPATH,'(//button[@aria-label="Close"])[1]')
+    BUY_THEME = (By.XPATH,"(//a[contains(text(),'Buy Theme')])[1]")
+    def __init__(self,driver):
+        super().__init__(driver)
+    def click_blog_button(self):
+        self.click(self.BLOG_BUTTON)
+        self.logger.info("Clicked the Blog button.")
 
-    def click_all_blog_images(self):
-        images = self.driver.find_elements(*self.BLOG_IMAGES)
-        for img in images:
-            self.driver.execute_script("arguments[0].scrollIntoView(true);", img)
-            self.driver.execute_script("arguments[0].click();", img)
-            self.driver.back()
-            WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located(self.PAGE_TITLE)
-            )
+    def click_blog_image(self):
+        self.click(self.BLOG_IMAGE)
+        self.logger.info("Clicked the Blog image")
+
+    def scroll_down(self):
+        self.scroll_to_element(self.SCROLL_DOWN)
+        self.logger.info("Scroll to bottom of the Submit button")
+
+    def enter_email(self,email):
+        self.js_send_keys(self.ENTER_EMAIL_ID, email) #enter email in test
+        self.logger.info(f"Entered the Email ID:{email}")
+
+    def click_submit(self):
+        self.click(self.CLICK_SUBMIT)
+        self.logger.info("Clicked the Submit button")
+    def is_subscribe_successful(self):
+        """
+        Checks if login was successful by looking for an element on the inventory page.
+        Uses the is_visible method inherited from BasePage.
+        """
+        return self.is_visible(self.BLOG_PAGE_HEADER, timeout=5)
+
+
+
+
 
 
