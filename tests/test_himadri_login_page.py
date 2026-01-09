@@ -18,7 +18,7 @@ class TestLogin(BaseTest):
     @pytest.mark.regression
     def test_successful_login(self):
         login_page = HimadriLoginPage(self.driver)
-        env = Environment()
+        env = Environment("himadri")
         base_url = env.get_base_url()
         email = env.get_email()
         password = env.get_password()
