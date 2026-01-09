@@ -6,7 +6,6 @@ import time
 
 import allure
 from selenium.webdriver import Keys
-from time import sleep
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -46,6 +45,18 @@ class BasePage:
             self.logger.error(f"Timeout: Element not clickable: {locator}")
             # Re-raise the exception to fail the test and trigger failure evidence capture
             raise
+
+    @allure.step("Force clicking Element: {locator}")
+    def force_click(self, locator):
+            """
+            JS click to bypass overlays / sticky headers
+            """
+            element = self.wait.until(EC.presence_of_element_located(locator))
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block:'center'});", element
+            )
+            self.driver.execute_script("arguments[0].click();", element)
+            self.logger.info(f"Force clicked element: {locator}")
 
     @allure.step("Entering text '{text}' into Element: {locator}")
     def send_keys(self, locator, text, clear_first=True):
@@ -362,7 +373,7 @@ class BasePage:
         self.click(dropdown_locator)
         self.click(option_locator)
 
-   def scroll_to_element(self, locator):
+    def scroll_to_elements(self, locator):
             element = self.driver.find_element(*locator)
             self.driver.execute_script(
           "arguments[0].scrollIntoView({block: 'center'});", element)
