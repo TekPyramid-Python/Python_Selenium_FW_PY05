@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+from config.environment import Environment
+
+
+
+# class Blog:
+#     def login(self):
+=======
 # tests/test_login.py
 import allure
 import pytest
@@ -61,4 +69,5 @@ class TestBlog(BaseTest):
             expected_title = 'Vanalaya'# This is the correct title for saucedemo
             actual_title = blog_page.get_title()  # This method is inherited from BasePage
             assert expected_title == actual_title, f"Expected title '{expected_title}', but got '{actual_title}'"
+>>>>>>> 3de1b3aec895842789408d8ef7178d2750b0989e
 

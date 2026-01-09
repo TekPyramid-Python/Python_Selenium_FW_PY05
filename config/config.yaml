@@ -38,6 +38,12 @@ environments:
     username: "prod_user"
     password: "prod_pass"
 
+  #Rentomojo Environment
+  rent:
+    base_url: "https://www.rentomojo.com/bangalore"
+    username: "N/A" # Not needed for this site
+    password: "N/A"
+
   modi:
     base_url: "https://modiretail.com/"
     username: "ashagudisagar30@gmail.com"
@@ -72,3 +78,16 @@ environments:
     base_url: "https://www.dentalkart.com/"
     username: "suraj.rpee24@gmail.com"
     password: "cherry"
+
+  clinicwala:
+    base_url: "https://www.clinicwala.com"
+
+  himadri:
+    base_url: "https://himadrigardens.com/"
+    email: "arshalokanathan@gmail.com"
+    password: "JaQ56y5KbLxwY@t"
+
+  home:
+    base_url: "https://www.ellementry.com/"
+    username: "prod_user"
+    password: "prod_pass"
