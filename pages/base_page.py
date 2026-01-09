@@ -2,17 +2,20 @@
 Base Page class containing common, reusable methods for all page objects.
 This class is the foundation of the Page Object Model pattern.
 """
+
+import allure
 import time
 
 import allure
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import Select
-from utils.logger import get_logger  # Import our central logger utility
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
-
+from utils.logger import get_logger
+from selenium.webdriver.support.ui import Select
 
 
 class BasePage:
@@ -74,6 +77,14 @@ class BasePage:
             self.logger.error(f"Timeout: Element not visible for text entry: {locator}")
             raise
 
+    def js_send_keys(self, locator, value):
+        element = self.wait.until(EC.presence_of_element_located(locator))
+        self.driver.execute_script("""
+            arguments[0].value = arguments[1];
+            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
+            arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+        """, element, value)
+
     @allure.step("Checking if Element is visible: {locator}")
     def is_visible(self, locator, timeout=10):
         """
@@ -119,6 +130,36 @@ class BasePage:
             self.logger.info(f"Successfully navigated to: {url}")
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
+            raise
+
+
+
+
+
+    def switch_to_window(self, index):
+        handles = self.driver.window_handles
+        self.driver.switch_to.window(handles[index])
+
+    def switch_to_iframe(self, iframe_handle):
+        self.driver.switch_to.iframe(iframe_handle)
+
+    def wait_till_pageload(self):
+        WebDriverWait(self.driver, 30).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+
+    @allure.step("Hover over element: {locator}")
+    def hover_over_element(self, locator):
+        """
+        hover to an element on the page to ensure it's in the viewport.
+        """
+        try:
+            element = self.driver.find_element(*locator)
+            act_obj = ActionChains(self.driver)
+            act_obj.move_to_element(element).perform()
+            self.logger.info(f"hovered to element: {locator}")
+        except Exception as e:
+            self.logger.error(f"Error hovering to element {locator}: {e}")
             raise
 
     @allure.step("Wait for element to be present: {locator}")
@@ -205,6 +246,40 @@ class BasePage:
         wait = WebDriverWait(self.driver, timeout, poll_frequency=0.5)
         wait.until(lambda d: d.find_element(*locator).is_enabled())
         self.driver.find_element(*locator).click()
+
+    def click_save_button(self, save_button, timeout=10):
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.element_to_be_clickable(save_button)
+            )
+
+            # Scroll element into view
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block: 'center'});", element
+            )
+
+            # Small wait for animation
+            self.driver.implicitly_wait(1)
+
+            try:
+                element.click()
+            except Exception:
+                # Fallback to JS click
+                self.driver.execute_script("arguments[0].click();", element)
+
+            self.logger.info(f"Successfully clicked element: {save_button}")
+
+        except Exception as e:
+            self.logger.error(f"Failed to click element: {save_button} | Error: {e}")
+            raise
+
+    def select_by_visible_text(self, drop_down):
+        dropdown = Select(self.wait.until(EC.element_to_be_clickable(drop_down)))
+        dropdown.select_by_visible_text("500ml Pet Bottle")
+        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
+        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
+
+
     @allure.step("Getting page url")
     def get_current_page_url(self):
         """Gets the url of the current page."""
@@ -272,7 +347,7 @@ class BasePage:
             )
             raise
 
-    @allure.step("Dropdown select")
+    @allure.step("Select value '{value}' from custom dropdown")
     def select_from_custom_dropdown(self, dropdown_locator, search_input_locator, value):
         try:
             self.click(dropdown_locator)
