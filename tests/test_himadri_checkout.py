@@ -13,7 +13,7 @@ class TestHimadriCartPage(BaseTest):
         shopall_valid = ShopAll_Validation(self.driver)
         cart_page = HimadriCartPage(self.driver)
         checkout_page = HimadriCheckout(self.driver)
-        env = Environment()
+        env = Environment('himadri')
         base_url = env.get_base_url()
         email = env.get_email()
         password = env.get_password()
