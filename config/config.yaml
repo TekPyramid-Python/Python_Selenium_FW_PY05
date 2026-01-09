@@ -25,7 +25,6 @@ environments:
     username: "dev_user"
     password: "dev_pass"
 
-
   # Your actual staging environment
   staging:
     base_url: "https://staging.example.com"
@@ -75,6 +74,11 @@ environments:
     base_url: "https://himadrigardens.com/"
     email: "arshalokanathan@gmail.com"
     password: "JaQ56y5KbLxwY@t"
+
+  home:
+    base_url: "https://www.ellementry.com/"
+    username: "prod_user"
+    password: "prod_pass"
   test:
     base_url: "https://www.swasthyawarriors.com"
     username: "test_user"

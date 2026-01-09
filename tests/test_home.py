@@ -1,23 +1,25 @@
 import pytest
 import allure
+from pages.elle_home_page import HomePage
 from pages.home_page import HomePage
 from tests.base_test import BaseTest
 
-
 @allure.feature("Home Page")
-@allure.story("Verify Home page loads correctly")
+@allure.story("Verify home page load")
 class TestHomePage(BaseTest):
-
     @pytest.mark.smoke
-    @allure.title("Verify Home page loads and logo is visible")
+    @allure.title("verify home page loads")
     def test_home_page_loads(self):
 
-        home_page = HomePage(self.driver)
+        home_page=HomePage(self.driver)
 
+        with allure.step("Open ellementry website"):
+            home_page.navigate_to("https://www.ellementry.com/")
         with allure.step("Open Swasthya Warriors website"):
             home_page.navigate_to("https://www.swasthyawarriors.com/")
             assert home_page.is_home_loaded(), "Home page did not load"
 
+        with allure.step("verify website logo is displayed"):
         with allure.step("Verify website logo is displayed"):
             assert home_page.is_logo_visible(), "Home page logo is not visible"
 

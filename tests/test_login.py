@@ -15,6 +15,7 @@ from tests.base_test import BaseTest
 @allure.feature("Authentication")
 @allure.story("User Login")
 class TestLogin(BaseTest):
+
     """
     Test class for login functionality against saucedemo.com.
     """

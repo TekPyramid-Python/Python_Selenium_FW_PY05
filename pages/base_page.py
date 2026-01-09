@@ -74,14 +74,6 @@ class BasePage:
             self.logger.error(f"Timeout: Element not visible for text entry: {locator}")
             raise
 
-    def js_send_keys(self, locator, value):
-        element = self.wait.until(EC.presence_of_element_located(locator))
-        self.driver.execute_script("""
-            arguments[0].value = arguments[1];
-            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
-            arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
-        """, element, value)
-
     @allure.step("Checking if Element is visible: {locator}")
     def is_visible(self, locator, timeout=10):
         """
@@ -213,18 +205,6 @@ class BasePage:
         wait = WebDriverWait(self.driver, timeout, poll_frequency=0.5)
         wait.until(lambda d: d.find_element(*locator).is_enabled())
         self.driver.find_element(*locator).click()
-
-
-
-
-
-
-
-
-
-
-
-
     @allure.step("Getting page url")
     def get_current_page_url(self):
         """Gets the url of the current page."""
@@ -393,9 +373,7 @@ class BasePage:
         self.click(dropdown_locator)
         self.click(option_locator)
 
-
-
-    def scroll_to_element(self, locator):
+   def scroll_to_element(self, locator):
             element = self.driver.find_element(*locator)
             self.driver.execute_script(
           "arguments[0].scrollIntoView({block: 'center'});", element)
