@@ -24,7 +24,8 @@ environments:
     base_url: "https://dev.example.com"
     username: "dev_user"
     password: "dev_pass"
-  
+
+
   # Your actual staging environment
   staging:
     base_url: "https://staging.example.com"
@@ -42,6 +43,11 @@ environments:
     base_url: "https://www.rentomojo.com/bangalore"
     username: "N/A" # Not needed for this site
     password: "N/A"
+
+  modi:
+    base_url: "https://modiretail.com/"
+    username: "ashagudisagar30@gmail.com"
+    password: "8197375829"
 
 
   digitgo:

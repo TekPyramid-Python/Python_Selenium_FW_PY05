@@ -3,16 +3,18 @@ Base Page class containing common, reusable methods for all page objects.
 This class is the foundation of the Page Object Model pattern.
 """
 
+import allure
 import time
 
 import allure
 from selenium.webdriver import ActionChains
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from utils.logger import get_logger  # Import our central logger utility
+from selenium.webdriver.common.action_chains import ActionChains
+from utils.logger import get_logger
+from selenium.webdriver.support.ui import Select
 
 
 class BasePage:
@@ -61,6 +63,14 @@ class BasePage:
         except TimeoutException:
             self.logger.error(f"Timeout: Element not visible for text entry: {locator}")
             raise
+
+    def js_send_keys(self, locator, value):
+        element = self.wait.until(EC.presence_of_element_located(locator))
+        self.driver.execute_script("""
+            arguments[0].value = arguments[1];
+            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
+            arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+        """, element, value)
 
     @allure.step("Checking if Element is visible: {locator}")
     def is_visible(self, locator, timeout=10):
@@ -224,15 +234,37 @@ class BasePage:
         wait.until(lambda d: d.find_element(*locator).is_enabled())
         self.driver.find_element(*locator).click()
 
+    def click_save_button(self, save_button, timeout=10):
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.element_to_be_clickable(save_button)
+            )
 
+            # Scroll element into view
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block: 'center'});", element
+            )
 
+            # Small wait for animation
+            self.driver.implicitly_wait(1)
 
+            try:
+                element.click()
+            except Exception:
+                # Fallback to JS click
+                self.driver.execute_script("arguments[0].click();", element)
 
+            self.logger.info(f"Successfully clicked element: {save_button}")
 
+        except Exception as e:
+            self.logger.error(f"Failed to click element: {save_button} | Error: {e}")
+            raise
 
-
-
-
+    def select_by_visible_text(self, drop_down):
+        dropdown = Select(self.wait.until(EC.element_to_be_clickable(drop_down)))
+        dropdown.select_by_visible_text("500ml Pet Bottle")
+        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
+        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
 
 
     @allure.step("Getting page url")
