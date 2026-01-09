@@ -24,8 +24,7 @@ environments:
     base_url: "https://dev.example.com"
     username: "dev_user"
     password: "dev_pass"
-
-
+  
   # Your actual staging environment
   staging:
     base_url: "https://staging.example.com"
@@ -91,3 +90,9 @@ environments:
     base_url: "https://www.ellementry.com/"
     username: "prod_user"
     password: "prod_pass"
+
+  # Your total_coffee testing environment
+  total_coffee:
+    base_url: "https://total.coffee/"
+    username: "plimpton8@gmail.com"
+    password: "Zaccheo@99"
