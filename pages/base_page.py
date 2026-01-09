@@ -2,8 +2,10 @@
 Base Page class containing common, reusable methods for all page objects.
 This class is the foundation of the Page Object Model pattern.
 """
+import time
 
 import allure
+from selenium.webdriver import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -373,7 +375,7 @@ class BasePage:
         self.click(dropdown_locator)
         self.click(option_locator)
 
-   def scroll_to_element(self, locator):
+    def scroll_to_elements(self, locator):
             element = self.driver.find_element(*locator)
             self.driver.execute_script(
           "arguments[0].scrollIntoView({block: 'center'});", element)
