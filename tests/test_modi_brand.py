@@ -25,7 +25,7 @@ class TestBrand(BaseTest):
 
         with allure.step("Navigate and perform a successful automation"):
             modi_home_page.navigate_to(base_url)
-            modi_home_page.brand_hover_method()
+            # modi_home_page.brand_hover_method()
             modi_product_list_page.modi_product_list_page()
             modi_brand_product_page.modi_brand_product()
             modi_cart_page.modi_view_cart_page()

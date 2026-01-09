@@ -90,16 +90,16 @@ def pytest_runtest_makereport(item, call):
 
     setattr(item, "rep_" + report.when, report)
 
-<<<<<<< HEAD
-    import pytest
-    from selenium import webdriver
-
-    @pytest.fixture
-    def browser():
-        driver = webdriver.Chrome()
-        driver.get("https://www.ellementry.com/")
-        driver.maximize_window()
-        yield driver
-        driver.quit()
-=======
->>>>>>> 3de1b3aec895842789408d8ef7178d2750b0989e
+# <<<<<<< HEAD
+#     import pytest
+#     from selenium import webdriver
+#
+#     @pytest.fixture
+#     def browser():
+#         driver = webdriver.Chrome()
+#         driver.get("https://www.ellementry.com/")
+#         driver.maximize_window()
+#         yield driver
+#         driver.quit()
+# =======
+# >>>>>>> 3de1b3aec895842789408d8ef7178d2750b0989e
