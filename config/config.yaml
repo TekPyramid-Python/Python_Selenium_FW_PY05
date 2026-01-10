@@ -3,7 +3,7 @@
 browser:
   default: "chrome"
   headless: false
-  implicit_wait: 10
+  implicit_wait: 30
   page_load_timeout: 30
 
 logging:
@@ -37,67 +37,7 @@ environments:
     username: "prod_user"
     password: "prod_pass"
 
-  #Rentomojo Environment
-  rent:
-    base_url: "https://www.rentomojo.com/bangalore"
-    username: "N/A" # Not needed for this site
-    password: "N/A"
-
-  modi:
-    base_url: "https://modiretail.com/"
-    username: "ashagudisagar30@gmail.com"
-    password: "8197375829"
-
-
-  digitgo:
-    base_url: "https://www.godigit.com/"
-    username: ""
-    password: ""
-
-  #my website url
-  test:
-    base_url: "https://vanalaya.com/"
-    username: "abcd@gmail.com"
-#    password: "87654321"
-  newapp:
-     base_url: "https://brownliving.in/"
-     username: "N/A" # not required for this website
-     password: "N/A"
-
-
-
-  #iTokri environment
-  itokri:
-    base_url: "https://itokri.com"
-    username: "arijit.singh@gmail.com"
-    password: "Arijit@1234"
-
-  # dentalkart testing enviroment
-  dental_kart:
-    base_url: "https://www.dentalkart.com/"
-    username: "suraj.rpee24@gmail.com"
-    password: "cherry"
-
-  clinicwala:
-    base_url: "https://www.clinicwala.com"
-
-  himadri:
-    base_url: "https://himadrigardens.com/"
-    email: "arshalokanathan@gmail.com"
-    password: "JaQ56y5KbLxwY@t"
-
-  home:
-    base_url: "https://www.ellementry.com/"
-    username: "prod_user"
-    password: "prod_pass"
-
-  # Your total_coffee testing environment
-  total_coffee:
-    base_url: "https://total.coffee/"
-    username: "plimpton8@gmail.com"
-    password: "Zaccheo@99"
-
-  arka:
-    base_url: "https://app.arka360.com/"
-    username: "skhan@arkaenergy.com"
-    password: "skhan@arkaenergy.com"
+  utsav:
+    base_url: "https://www.utsavfashion.com/"
+    username: "naazsafira@gmail.com"
+    password: "safira@22"
