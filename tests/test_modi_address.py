@@ -8,7 +8,7 @@ from pages.modi_dashboard_page import ModiDashboardPage
 from pages.modi_billing_address_page import ModiBillingAddressPage
 from pages.modi_edit_billing_page import ModiEditBillingPage
 # from pages.modi_edit_account_page import ModiEditAccountPage
-
+@pytest.mark.modi
 class TestLogin(BaseTest):
     @allure.title("Test login page to verify screenshot on failure")
     @allure.severity(allure.severity_level.MINOR)

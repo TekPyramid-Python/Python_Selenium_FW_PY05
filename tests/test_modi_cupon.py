@@ -7,11 +7,12 @@ from pages.modi_billing_page import ModiBillingPage
 from pages.modi_cart_page import ModiCartPage
 from pages.modi_product_list_page import ModiProductListPage
 from pages.modi_product_page import ModiProductPage
-
+@pytest.mark.modi
 class TestCupon(BaseTest):
     @allure.title("Test order page to verify ")
     @allure.severity(allure.severity_level.MINOR)
     @pytest.mark.system
+
     def test_cupon_for_orders(self):
         modi_home_page=ModiHomePage(self.driver)
         modi_product_list_page=ModiProductListPage(self.driver)

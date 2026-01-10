@@ -9,10 +9,13 @@ from pages.modi_product_list_page import ModiProductListPage
 from pages.modi_product_page import ModiProductPage
 from pages.modi_cart_page import ModiCartPage
 
+
+@pytest.mark.modi
 class TestBlog(BaseTest):
     @allure.title("Test login page to verify screenshot on failure")
     @allure.severity(allure.severity_level.MINOR)
     @pytest.mark.system
+
     def test_blog_for_modi(self):
         modi_home_page = ModiHomePage(self.driver)
         modi_login_page = ModiLoginPage(self.driver)

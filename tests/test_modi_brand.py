@@ -8,10 +8,13 @@ from pages.modi_cart_page import ModiCartPage
 from pages.modi_product_list_page import ModiProductListPage
 from tests.base_test import BaseTest
 
+
+@pytest.mark.modi
 class TestBrand(BaseTest):
     @allure.title("Test order page to verify ")
     @allure.severity(allure.severity_level.MINOR)
     @pytest.mark.integration
+
     def test_brand_for_orders(self):
         modi_home_page=ModiHomePage(self.driver)
         modi_product_list_page=ModiProductListPage(self.driver)
