@@ -4,10 +4,13 @@ This class is the foundation of the Page Object Model pattern.
 """
 
 import allure
+from time import sleep
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from utils.logger import get_logger  # Import our central logger utility
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import Select
 
 
 class BasePage:
@@ -25,6 +28,8 @@ class BasePage:
         self.wait = WebDriverWait(driver, 20)
         # Use our central logger, already configured in conftest.py
         self.logger = get_logger()
+        #Action Chains
+        self.actions = ActionChains(driver)
 
     @allure.step("Clicking Element: {locator}")
     def click(self, locator):
@@ -103,3 +108,4 @@ class BasePage:
         except Exception as e:
             self.logger.error(f"Failed to navigate to {url}. Error: {e}")
             raise
+
