@@ -42,3 +42,4 @@ automation_chrome_profile/
 # -------------------------
 .DS_Store
 Thumbs.db
+drivers/
