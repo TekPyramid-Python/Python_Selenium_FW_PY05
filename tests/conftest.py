@@ -1,19 +1,25 @@
 # tests/conftest.py
 
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
 import pytest
 import logging
 import colorlog
 from datetime import datetime
 import os
 import time
-from pathlib import Path
-import pytest_html  # <-- The required import
+import pytest_html
 from config.environment import Environment
 
 
 @pytest.fixture(scope="session", autouse=True)
 def session_logger(request):
     """A session-scoped fixture that sets up a timestamped logger for the entire test run."""
+
     timestamp = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
     log_folder_name = f"logs_{timestamp}"
     log_file_name = f"log_{timestamp}.log"

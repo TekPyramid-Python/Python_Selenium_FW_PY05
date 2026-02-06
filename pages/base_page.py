@@ -266,7 +266,7 @@ class BasePage:
         dropdown = Select(self.wait.until(EC.element_to_be_clickable(drop_down)))
         dropdown.select_by_visible_text("500ml Pet Bottle")
         self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
-        self.logger.info(f"Selected '{"500ml Pet Bottle"}' from dropdown: {drop_down}")
+        self.logger.info(f"Selected '500ml Pet Bottle' from dropdown: {drop_down}")
 
 
     @allure.step("Getting page url")
