@@ -39,6 +39,7 @@ class TestLeadManagement(BaseTest):
             time.sleep(2)
             self.logger.info("Login successful and lead management page is displayed.")
 
+
         with allure.step("2. Open Lead Creation Page"):
             lead_creation_page.open_lead_creation_page()
             assert lead_creation_page.is_lead_creation_page_opening_successful()
