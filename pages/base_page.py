@@ -2,6 +2,8 @@
 Base Page class containing common, reusable methods for all page objects.
 This class is the foundation of the Page Object Model pattern.
 """
+
+
 import time
 
 import allure
@@ -30,6 +32,8 @@ class BasePage:
         self.wait = WebDriverWait(driver, 20)
         # Use our central logger, already configured in conftest.py
         self.logger = get_logger()
+        #Action Chains
+        self.actions = ActionChains(driver)
 
     @allure.step("Clicking Element: {locator}")
     def click(self, locator):
@@ -73,6 +77,14 @@ class BasePage:
         except TimeoutException:
             self.logger.error(f"Timeout: Element not visible for text entry: {locator}")
             raise
+
+    def js_send_keys(self, locator, value):
+        element = self.wait.until(EC.presence_of_element_located(locator))
+        self.driver.execute_script("""
+            arguments[0].value = arguments[1];
+            arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
+            arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+        """, element, value)
 
     @allure.step("Checking if Element is visible: {locator}")
     def is_visible(self, locator, timeout=10):
@@ -205,6 +217,39 @@ class BasePage:
         wait = WebDriverWait(self.driver, timeout, poll_frequency=0.5)
         wait.until(lambda d: d.find_element(*locator).is_enabled())
         self.driver.find_element(*locator).click()
+
+    def click_save_button(self, save_button, timeout=10):
+        try:
+            element = WebDriverWait(self.driver, timeout).until(
+                EC.element_to_be_clickable(save_button)
+            )
+
+            # Scroll element into view
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block: 'center'});", element
+            )
+
+            # Small wait for animation
+            self.driver.implicitly_wait(1)
+
+            try:
+                element.click()
+            except Exception:
+                # Fallback to JS click
+                self.driver.execute_script("arguments[0].click();", element)
+
+            self.logger.info(f"Successfully clicked element: {save_button}")
+
+        except Exception as e:
+            self.logger.error(f"Failed to click element: {save_button} | Error: {e}")
+            raise
+
+    def select_by_visible_text(self, drop_down):
+        dropdown = Select(self.wait.until(EC.element_to_be_clickable(drop_down)))
+        dropdown.select_by_visible_text("500ml Pet Bottle")
+        self.logger.info(f"Selected '500ml Pet Bottle' from dropdown: {drop_down}")
+
+
     @allure.step("Getting page url")
     def get_current_page_url(self):
         """Gets the url of the current page."""
